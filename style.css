@@ -484,8 +484,9 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
 /* GRADIENT BORDER — FEATURED CARD */
 .card-featured {
   position: relative;
-  background: var(--surface);
+  background: #0a0a0f;
   border: none !important;
+  isolation: isolate;
 }
 .card-featured::before {
   content: '';
