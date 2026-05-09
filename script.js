@@ -26,6 +26,11 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+// Page load animation
+window.addEventListener('load', () => {
+  document.body.classList.add('loaded');
+});
+
 // Scroll progress bar
 const progressBar = document.getElementById('scrollProgress');
 window.addEventListener('scroll', () => {
