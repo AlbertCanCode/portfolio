@@ -481,27 +481,15 @@ body.loaded .hero-inner,
 body.loaded nav,
 body.loaded .section { opacity: 1; transform: translateY(0); }
 
-/* GRADIENT BORDER — FEATURED CARD */
+/* GLOW BORDER — FEATURED CARD */
 .card-featured {
-  position: relative;
-  background: #0a0a0f;
-  border: none !important;
-  isolation: isolate;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(99,102,241,0.35), 0 0 48px rgba(99,102,241,0.15);
+  animation: glowPulse 3s ease-in-out infinite;
 }
-.card-featured::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: calc(var(--radius) + 2px);
-  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899, #6366f1);
-  background-size: 300% 300%;
-  animation: gradientMove 4s ease infinite;
-  z-index: -1;
-}
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(99,102,241,0.35), 0 0 48px rgba(99,102,241,0.15); }
+  50% { box-shadow: 0 0 0 1px var(--accent-hover), 0 0 32px rgba(129,140,248,0.5), 0 0 64px rgba(129,140,248,0.2); }
 }
 
 /* TOOLTIPS */
