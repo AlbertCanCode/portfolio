@@ -23,7 +23,10 @@
   <!-- NAV -->
   <nav>
     <span class="nav-logo">AlbertCanCode</span>
-    <ul>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="navMenu">
       <li><a href="#projects">Projects <span class="nav-count">13</span></a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#about">About</a></li>
@@ -35,7 +38,7 @@
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-eyebrow">Hi, I'm Albert 👋</p>
-      <h1>I make games<br />and <span class="accent">web stuff.</span></h1>
+      <h1>I make <span class="accent typed" id="typedText"></span></h1>
       <p class="hero-sub">
         Scratch dev since 2022 — 1.5M+ combined views. Started with Paper Minecraft,
         now focused on building original high-quality games. Learning JS &amp; Python.
@@ -57,6 +60,12 @@
     <div class="container">
       <h2 class="section-title">Projects</h2>
       <p class="section-sub">Games, tools, and experiments.</p>
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="scratch">Scratch</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="wip">In Progress</button>
+      </div>
       <div class="projects-grid">
 
         <!-- CARD 1 -->
@@ -406,6 +415,30 @@
   </section>
 
   <!-- FOOTER -->
+  <!-- FIND ME -->
+  <section class="find-me">
+    <div class="container">
+      <h2>Find me on</h2>
+      <div class="find-me-links">
+        <a href="https://scratch.mit.edu/users/ChessProking-tm/" target="_blank" rel="noopener" class="find-me-btn">
+          <span class="find-me-icon">🐱</span>
+          <span class="find-me-label">Scratch</span>
+          <span class="find-me-sub">ChessProking-tm</span>
+        </a>
+        <a href="https://albertcancode.itch.io" target="_blank" rel="noopener" class="find-me-btn">
+          <span class="find-me-icon">🎮</span>
+          <span class="find-me-label">itch.io</span>
+          <span class="find-me-sub">albertcancode</span>
+        </a>
+        <a href="https://github.com/AlbertCanCode" target="_blank" rel="noopener" class="find-me-btn">
+          <span class="find-me-icon">💻</span>
+          <span class="find-me-label">GitHub</span>
+          <span class="find-me-sub">AlbertCanCode</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="footer-links">
       <a href="https://scratch.mit.edu/users/ChessProking-tm/" target="_blank" rel="noopener">Scratch</a>

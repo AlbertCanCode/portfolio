@@ -69,6 +69,56 @@ nav ul a:hover { color: var(--text); }
   font-weight: 600;
 }
 
+/* HAMBURGER */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.25s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 600px) {
+  .nav-hamburger { display: flex; }
+
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10,10,15,0.97);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+  }
+
+  nav ul.open { display: flex; }
+
+  nav ul li a {
+    display: block;
+    padding: 0.85rem 2rem;
+    font-size: 1rem;
+  }
+}
+
 /* HERO */
 .hero {
   min-height: 90vh;
@@ -102,6 +152,18 @@ nav ul a:hover { color: var(--text); }
 }
 
 .accent { color: var(--accent); }
+
+.typed::after {
+  content: '|';
+  animation: blink 0.7s step-end infinite;
+  margin-left: 2px;
+  color: var(--accent);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 
 .hero-sub {
   font-size: 1.15rem;
@@ -172,6 +234,32 @@ nav ul a:hover { color: var(--text); }
   margin-bottom: 3rem;
   font-size: 1.05rem;
 }
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.card.hidden { display: none; }
 
 /* PROJECT CARDS */
 .projects-grid {
@@ -446,6 +534,59 @@ nav ul a:hover { color: var(--text); }
   color: var(--text-muted);
   margin-top: 0.15rem;
   font-family: var(--mono);
+}
+
+/* FIND ME */
+.find-me {
+  padding: 5rem 2rem;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(99,102,241,0.08) 0%, transparent 70%), var(--bg2);
+  text-align: center;
+}
+
+.find-me h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+}
+
+.find-me-links {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.find-me-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 1.75rem 2.5rem;
+  min-width: 160px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.find-me-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.find-me-icon { font-size: 2rem; }
+
+.find-me-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.find-me-sub {
+  font-size: 0.75rem;
+  font-family: var(--mono);
+  color: var(--text-muted);
 }
 
 /* NAV COUNT */
