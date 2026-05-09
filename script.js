@@ -26,6 +26,13 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+// Scroll progress bar
+const progressBar = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = scrolled + '%';
+}, { passive: true });
+
 // Typed hero text
 const words = ['games.', 'web apps.', 'pixel art.', 'platformers.', 'simulators.'];
 let wi = 0, ci = 0, deleting = false;

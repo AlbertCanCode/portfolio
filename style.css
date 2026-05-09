@@ -18,6 +18,18 @@
 
 html { scroll-behavior: smooth; }
 
+/* SCROLL PROGRESS */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  z-index: 999;
+  transition: width 0.1s linear;
+}
+
 body {
   font-family: var(--font);
   background: var(--bg);
@@ -479,6 +491,12 @@ nav ul a:hover { color: var(--text); }
   align-items: center;
   min-width: 90px;
   flex: 1;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.record-stat:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
 }
 
 .record-num {
