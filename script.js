@@ -66,6 +66,15 @@ cards.forEach(card => {
   card.dataset.filter = filters.join(' ');
 });
 
+// Inject counts into filter buttons
+filterBtns.forEach(btn => {
+  const f = btn.dataset.filter;
+  const count = f === 'all'
+    ? cards.length
+    : [...cards].filter(c => c.dataset.filter.includes(f)).length;
+  btn.innerHTML = btn.textContent + `<span class="filter-count">${count}</span>`;
+});
+
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     filterBtns.forEach(b => b.classList.remove('active'));

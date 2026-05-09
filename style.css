@@ -271,6 +271,21 @@ nav ul a:hover { color: var(--text); }
 .filter-btn:hover { border-color: var(--accent); color: var(--text); }
 .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+.filter-count {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  font-size: 0.68rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+  font-family: var(--mono);
+  vertical-align: middle;
+}
+.filter-btn:not(.active) .filter-count {
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+}
+
 .card.card-fading { opacity: 0; pointer-events: none; }
 .card.hidden { display: none; }
 
