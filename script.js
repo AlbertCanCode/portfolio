@@ -72,8 +72,14 @@ filterBtns.forEach(btn => {
     btn.classList.add('active');
     const f = btn.dataset.filter;
     cards.forEach(card => {
+      clearTimeout(card._hideTimer);
       const match = f === 'all' || card.dataset.filter.includes(f);
-      card.classList.toggle('hidden', !match);
+      if (match) {
+        card.classList.remove('hidden', 'card-fading');
+      } else {
+        card.classList.add('card-fading');
+        card._hideTimer = setTimeout(() => card.classList.add('hidden'), 280);
+      }
     });
   });
 });

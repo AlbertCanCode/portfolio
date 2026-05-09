@@ -271,6 +271,7 @@ nav ul a:hover { color: var(--text); }
 .filter-btn:hover { border-color: var(--accent); color: var(--text); }
 .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+.card.card-fading { opacity: 0; pointer-events: none; }
 .card.hidden { display: none; }
 
 /* PROJECT CARDS */
@@ -285,7 +286,7 @@ nav ul a:hover { color: var(--text); }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: transform 0.2s, border-color 0.2s, opacity 0.25s ease;
 }
 
 .card:hover {
@@ -314,6 +315,12 @@ nav ul a:hover { color: var(--text); }
   background: #92400e;
   color: #fde68a;
   border: 1px solid #d97706;
+}
+
+.card-badge-wip {
+  background: #0e4f4f;
+  color: #5eead4;
+  border: 1px solid #14b8a6;
 }
 
 .card { position: relative; }
