@@ -44,17 +44,22 @@ def get_follower_count(username):
         else:
             high = mid
 
-    # low is the last offset with a follower, so total = low + 1
-    return low + 1
+    # Fine-count the last page to get exact total
+    url = f"https://api.scratch.mit.edu/users/{username}/followers/?limit=40&offset={low}"
+    try:
+        resp = session.get(url, timeout=10)
+        last_page = resp.json()
+        return low + len(last_page)
+    except Exception:
+        return low
 
 
 def format_count(n):
-    """Format a number nicely: 3200 → 3.2K+, 3000 → 3K+, 800 → 800."""
+    """Format a number nicely: 4242 → 4.2K, 3000 → 3K, 800 → 800."""
     if n >= 1000:
         k = n / 1000
-        # Remove trailing .0 so 3000 shows as 3K+ not 3.0K+
         text = f"{k:.1f}".rstrip("0").rstrip(".")
-        return f"{text}K+"
+        return f"{text}K"
     return str(n)
 
 
