@@ -779,3 +779,55 @@ footer {
   .hero-stats { gap: 2rem; }
   .projects-grid { grid-template-columns: 1fr; }
 }
+
+/* TESTIMONIALS */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.testimonial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.testimonial-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+.testimonial-quote {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  font-style: italic;
+}
+.testimonial-quote::before {
+  content: '"';
+  color: var(--accent);
+  font-size: 2rem;
+  line-height: 0;
+  vertical-align: -0.5rem;
+  margin-right: 0.15rem;
+  font-style: normal;
+}
+
+.testimonial-attr { display: flex; flex-direction: column; gap: 0.2rem; }
+.testimonial-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.testimonial-role { font-size: 0.75rem; font-family: var(--mono); color: var(--accent); }
+.testimonial-context { font-size: 0.75rem; font-family: var(--mono); color: var(--text-muted); }
+
+/* PREFERS REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html { scroll-behavior: auto; }
+  .fade-in { opacity: 1; transform: none; }
+  .hero-inner, nav, .section { opacity: 1; transform: none; }
+}
