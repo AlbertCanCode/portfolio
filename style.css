@@ -842,6 +842,13 @@ footer {
   color: #fff;
   flex-shrink: 0;
   font-family: var(--mono);
+  overflow: hidden;
+}
+.testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .testimonial-attr { display: flex; flex-direction: column; gap: 0.15rem; }
