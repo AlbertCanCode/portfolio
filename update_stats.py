@@ -23,7 +23,7 @@ def format_count(n):
     """Format a number nicely: 4242 → 4.2K, 3000 → 3K, 800 → 800."""
     if n >= 1000:
         k = n / 1000
-        text = f"{k:.1f}".rstrip("0").rstrip(".")
+        text = f"{k:.2f}".rstrip("0").rstrip(".")
         return f"{text}K"
     return str(n)
 
