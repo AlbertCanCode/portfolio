@@ -2,56 +2,21 @@
 Auto-updates the Scratch follower count in index.html.
 Runs daily via GitHub Actions (.github/workflows/update-stats.yml).
 
-The Scratch API has no direct follower count endpoint, so we binary-search
-the paginated followers list to find the exact total efficiently (~10 requests).
+Uses scratchattach to fetch the follower count directly from Scratch's API
+without needing login credentials.
 """
 
 import re
-import time
-import requests
+import scratchattach as sa
 
 USERNAME = "ChessProking-tm"
 HTML_FILE = "index.html"
 
 
 def get_follower_count(username):
-    """Binary search the Scratch followers API to find the exact total count."""
-
-    session = requests.Session()
-    session.headers.update({"User-Agent": "Mozilla/5.0 (portfolio stats updater)"})
-
-    def has_followers_at(offset):
-        """Returns True if there are followers at or beyond this offset."""
-        url = f"https://api.scratch.mit.edu/users/{username}/followers/?limit=1&offset={offset}"
-        try:
-            resp = session.get(url, timeout=10)
-            time.sleep(0.2)  # be polite to Scratch's servers
-            return len(resp.json()) > 0
-        except Exception:
-            return False
-
-    # Step 1: find a rough upper bound by doubling until we get an empty page
-    upper = 40
-    while has_followers_at(upper):
-        upper *= 2
-
-    # Step 2: binary search between lower and upper bound
-    low, high = upper // 2, upper
-    while low < high - 1:
-        mid = (low + high) // 2
-        if has_followers_at(mid):
-            low = mid
-        else:
-            high = mid
-
-    # Fine-count the last page to get exact total
-    url = f"https://api.scratch.mit.edu/users/{username}/followers/?limit=40&offset={low}"
-    try:
-        resp = session.get(url, timeout=10)
-        last_page = resp.json()
-        return low + len(last_page)
-    except Exception:
-        return low
+    """Fetch the exact follower count via scratchattach (no login required)."""
+    user = sa.get_user(username)
+    return user.follower_count()
 
 
 def format_count(n):
