@@ -109,3 +109,27 @@ document.querySelectorAll('#navMenu a').forEach(a => {
 
 // Footer year
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// Animated number counters
+const counters = document.querySelectorAll('.stat-num[data-target]');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const decimals = target % 1 !== 0 ? 1 : 0;
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = (eased * target).toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toFixed(decimals) + suffix;
+    }
+    requestAnimationFrame(update);
+    counterObserver.unobserve(el);
+  });
+}, { threshold: 0.6 });
+counters.forEach(c => counterObserver.observe(c));
