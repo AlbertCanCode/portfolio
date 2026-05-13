@@ -113,7 +113,47 @@ def update_hero_stat(html, stat_key, target_val, suffix_val, display_text):
     return re.sub(pattern, replacer, html)
 
 
-def update_html(filepath, record_updates, hero_updates):
+def update_inline_spans(html, auto_key, value):
+    """Replace text inside every <span data-auto="key">...</span> in body text."""
+    pattern = rf'(<span data-auto="{re.escape(auto_key)}">)[^<]*(</span>)'
+    return re.sub(pattern, rf'\g<1>{value}\g<2>', html)
+
+
+def update_meta_descriptions(html, combined_value):
+    """Update the 1.5M+ figure inside meta description, OG, Twitter, and JSON-LD tags."""
+    # meta description tag (has data-auto-meta marker)
+    html = re.sub(
+        r'(data-auto-meta="combined-views"[^>]*content="[^"]*?)[\d.]+[MK]+\+([^"]*")',
+        rf'\g<1>{combined_value}\g<2>',
+        html
+    )
+    html = re.sub(
+        r'(content="[^"]*?)[\d.]+[MK]+\+([^"]*"[^>]*data-auto-meta="combined-views")',
+        rf'\g<1>{combined_value}\g<2>',
+        html
+    )
+    # OG and Twitter descriptions
+    for prop in ['og:description', 'twitter:description']:
+        html = re.sub(
+            rf'(<meta[^>]*(?:property|name)="{re.escape(prop)}"[^>]*content="[^"]*?)[\d.]+[MK]+\+',
+            rf'\g<1>{combined_value}',
+            html
+        )
+        html = re.sub(
+            rf'(<meta[^>]*content="[^"]*?)[\d.]+[MK]+\+([^"]*"[^>]*(?:property|name)="{re.escape(prop)}")',
+            rf'\g<1>{combined_value}\g<2>',
+            html
+        )
+    # JSON-LD description
+    html = re.sub(
+        r'("description":\s*"[^"]*?)[\d.]+[MK]+\+([^"]*")',
+        rf'\g<1>{combined_value}\g<2>',
+        html
+    )
+    return html
+
+
+def update_html(filepath, record_updates, hero_updates, inline_updates, combined_value):
     """Apply all stat updates to the HTML file and write if changed."""
     with open(filepath, "r", encoding="utf-8") as f:
         html = f.read()
@@ -123,6 +163,9 @@ def update_html(filepath, record_updates, hero_updates):
         html = update_record_stat(html, tooltip, value)
     for stat_key, (target, suffix, display) in hero_updates.items():
         html = update_hero_stat(html, stat_key, target, suffix, display)
+    for auto_key, value in inline_updates.items():
+        html = update_inline_spans(html, auto_key, value)
+    html = update_meta_descriptions(html, combined_value)
 
     if html == original:
         print("All stats unchanged — no update needed.")
@@ -170,10 +213,19 @@ if __name__ == "__main__":
     # Combined views (Scratch + itch.io)
     combined = scratch_views + (itch_views or 0)
     fmt_combined = format_count(combined)
-    print(f"  Combined views: {combined} → '{fmt_combined}'")
+    fmt_combined_plus = fmt_combined + "+"
+    print(f"  Combined views: {combined} → '{fmt_combined_plus}'")
     record_updates["Combined views across Scratch and itch.io"] = fmt_combined
     hero_updates["combined-views"] = format_hero(combined)
 
+    # Inline span updates (body text sentences)
+    inline_updates = {
+        "combined-views": fmt_combined_plus,
+    }
+    if itch_views is not None:
+        fmt_itch_plus = format_count(itch_views) + "+"
+        inline_updates["itch-views"] = fmt_itch_plus
+
     # Write everything
-    changed = update_html(HTML_FILE, record_updates, hero_updates)
+    changed = update_html(HTML_FILE, record_updates, hero_updates, inline_updates, fmt_combined_plus)
     print("index.html updated successfully." if changed else "No changes written.")
