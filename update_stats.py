@@ -4,17 +4,22 @@ Runs daily via GitHub Actions (.github/workflows/update-stats.yml).
 
 Stats updated:
   - Scratch follower count  (via scratchattach, no auth needed)
-  - itch.io total downloads (via itch.io API, requires ITCH_API_KEY secret)
+  - Scratch total views     (summed across all project accounts via REST API)
+  - itch.io total views     (via itch.io API, requires ITCH_API_KEY secret)
+  - Combined total views    (Scratch + itch.io, derived automatically)
 """
 
 import os
 import re
+import time
 import requests
 import scratchattach as sa
 
-SCRATCH_USERNAME = "ChessProking-tm"
-ITCH_USERNAME    = "albertcancode"
-HTML_FILE        = "index.html"
+# Public Scratch accounts whose project views count toward the total
+SCRATCH_MAIN      = "ChessProking-tm"
+SCRATCH_ACCOUNTS  = ["ChessProking-tm", "ChessProking-alt", "netheradventurer"]
+ITCH_USERNAME     = "albertcancode"
+HTML_FILE         = "index.html"
 
 
 # ─── SCRATCH ──────────────────────────────────────────────────────────────────
@@ -23,6 +28,31 @@ def get_scratch_followers(username):
     """Fetch exact follower count via scratchattach (no login required)."""
     user = sa.get_user(username)
     return user.follower_count()
+
+
+def get_scratch_views(usernames):
+    """Sum views across all projects for the given Scratch usernames."""
+    session = requests.Session()
+    session.headers.update({"User-Agent": "Mozilla/5.0 (portfolio stats updater)"})
+    total = 0
+    for username in usernames:
+        offset = 0
+        while True:
+            url = f"https://api.scratch.mit.edu/users/{username}/projects?limit=40&offset={offset}"
+            try:
+                resp = session.get(url, timeout=10)
+                projects = resp.json()
+            except Exception as e:
+                print(f"  Warning: error fetching projects for {username}: {e}")
+                break
+            if not isinstance(projects, list) or not projects:
+                break
+            total += sum(p.get("stats", {}).get("views", 0) for p in projects)
+            if len(projects) < 40:
+                break
+            offset += 40
+            time.sleep(0.3)  # be polite to Scratch's servers
+    return total
 
 
 # ─── ITCH.IO ──────────────────────────────────────────────────────────────────
@@ -34,45 +64,65 @@ def get_itch_views(api_key):
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         games = resp.json().get("games", [])
-        total = sum(g.get("views_count", 0) for g in games)
-        return total
+        return sum(g.get("views_count", 0) for g in games)
     except Exception as e:
-        print(f"Warning: could not fetch itch.io stats — {e}")
+        print(f"  Warning: could not fetch itch.io stats — {e}")
         return None
 
 
 # ─── FORMATTING ───────────────────────────────────────────────────────────────
 
 def format_count(n):
-    """Format a number nicely: 4242 → 4.24K, 3000 → 3K, 800 → 800."""
+    """Format a number: 1542000 → 1.54M, 4242 → 4.24K, 800 → 800."""
     if n >= 1_000_000:
-        m = n / 1_000_000
-        text = f"{m:.2f}".rstrip("0").rstrip(".")
+        text = f"{n / 1_000_000:.2f}".rstrip("0").rstrip(".")
         return f"{text}M"
     if n >= 1000:
-        k = n / 1000
-        text = f"{k:.2f}".rstrip("0").rstrip(".")
+        text = f"{n / 1000:.2f}".rstrip("0").rstrip(".")
         return f"{text}K"
     return str(n)
 
 
+def format_hero(n):
+    """Format for hero animated counter: returns (target_str, suffix, display_text)."""
+    if n >= 1_000_000:
+        target = f"{n / 1_000_000:.2f}".rstrip("0").rstrip(".")
+        return target, "M+", f"{target}M+"
+    if n >= 1000:
+        target = f"{n / 1000:.2f}".rstrip("0").rstrip(".")
+        return target, "K+", f"{target}K+"
+    return str(n), "+", f"{n}+"
+
+
 # ─── HTML UPDATE ──────────────────────────────────────────────────────────────
 
-def update_stat(html, tooltip, formatted_value):
-    """Replace the record-num span inside a record-stat with the given tooltip."""
+def update_record_stat(html, tooltip, value):
+    """Replace the record-num span inside a record-stat matched by its tooltip."""
     pattern = rf'(data-tooltip="{re.escape(tooltip)}"[^>]*>\s*<span class="record-num">)[^<]*(</span>)'
-    updated = re.sub(pattern, rf'\g<1>{formatted_value}\g<2>', html)
-    return updated
+    return re.sub(pattern, rf'\g<1>{value}\g<2>', html)
 
 
-def update_html(filepath, updates):
-    """Apply a dict of {tooltip: formatted_value} updates to the HTML file."""
+def update_hero_stat(html, stat_key, target_val, suffix_val, display_text):
+    """Update data-target, data-suffix, and text of a hero stat-num by data-stat key."""
+    def replacer(m):
+        inner = m.group(1)
+        inner = re.sub(r'data-target="[^"]*"', f'data-target="{target_val}"', inner)
+        inner = re.sub(r'data-suffix="[^"]*"', f'data-suffix="{suffix_val}"', inner)
+        return f'<span class="stat-num"{inner}>{display_text}</span>'
+    pattern = rf'<span class="stat-num"([^>]*data-stat="{re.escape(stat_key)}"[^>]*)>[^<]*</span>'
+    return re.sub(pattern, replacer, html)
+
+
+def update_html(filepath, record_updates, hero_updates):
+    """Apply all stat updates to the HTML file and write if changed."""
     with open(filepath, "r", encoding="utf-8") as f:
         html = f.read()
 
     original = html
-    for tooltip, value in updates.items():
-        html = update_stat(html, tooltip, value)
+    for tooltip, value in record_updates.items():
+        html = update_record_stat(html, tooltip, value)
+    for stat_key, (target, suffix, display) in hero_updates.items():
+        html = update_hero_stat(html, stat_key, target, suffix, display)
 
     if html == original:
         print("All stats unchanged — no update needed.")
@@ -86,30 +136,44 @@ def update_html(filepath, updates):
 # ─── MAIN ─────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    updates = {}
+    record_updates = {}
+    hero_updates   = {}
 
     # Scratch followers
-    print(f"Fetching Scratch followers for {SCRATCH_USERNAME}...")
-    followers = get_scratch_followers(SCRATCH_USERNAME)
-    formatted_followers = format_count(followers)
-    print(f"  Scratch followers: {followers} → '{formatted_followers}'")
-    updates["Followers on Scratch"] = formatted_followers
+    print(f"Fetching Scratch followers for {SCRATCH_MAIN}...")
+    followers = get_scratch_followers(SCRATCH_MAIN)
+    fmt_followers = format_count(followers)
+    print(f"  Followers: {followers} → '{fmt_followers}'")
+    record_updates["Followers on Scratch"] = fmt_followers
 
-    # itch.io downloads
+    # Scratch views (all accounts)
+    print(f"Fetching Scratch views for: {', '.join(SCRATCH_ACCOUNTS)}...")
+    scratch_views = get_scratch_views(SCRATCH_ACCOUNTS)
+    fmt_scratch = format_count(scratch_views)
+    print(f"  Scratch views: {scratch_views} → '{fmt_scratch}'")
+    record_updates["Total views across all Scratch projects"] = fmt_scratch
+    hero_updates["scratch-views"] = format_hero(scratch_views)
+
+    # itch.io views
     itch_api_key = os.environ.get("ITCH_API_KEY")
+    itch_views = None
     if itch_api_key:
-        print(f"Fetching itch.io downloads for {ITCH_USERNAME}...")
-        views = get_itch_views(itch_api_key)
-        if views is not None:
-            formatted_views = format_count(views)
-            print(f"  itch.io views: {views} → '{formatted_views}'")
-            updates["Total views across all itch.io games"] = formatted_views
+        print(f"Fetching itch.io views for {ITCH_USERNAME}...")
+        itch_views = get_itch_views(itch_api_key)
+        if itch_views is not None:
+            fmt_itch = format_count(itch_views)
+            print(f"  itch.io views: {itch_views} → '{fmt_itch}'")
+            record_updates["Total views across all itch.io games"] = fmt_itch
     else:
         print("Skipping itch.io stats (ITCH_API_KEY not set).")
 
-    # Write to HTML
-    changed = update_html(HTML_FILE, updates)
-    if changed:
-        print("index.html updated successfully.")
-    else:
-        print("No changes written.")
+    # Combined views (Scratch + itch.io)
+    combined = scratch_views + (itch_views or 0)
+    fmt_combined = format_count(combined)
+    print(f"  Combined views: {combined} → '{fmt_combined}'")
+    record_updates["Combined views across Scratch and itch.io"] = fmt_combined
+    hero_updates["combined-views"] = format_hero(combined)
+
+    # Write everything
+    changed = update_html(HTML_FILE, record_updates, hero_updates)
+    print("index.html updated successfully." if changed else "No changes written.")
