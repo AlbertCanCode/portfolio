@@ -984,6 +984,98 @@ footer {
 .testimonial-role { font-size: 0.72rem; font-family: var(--mono); color: var(--accent); }
 .testimonial-context { font-size: 0.72rem; font-family: var(--mono); color: var(--text-muted); }
 
+/* ─── TIMELINE ───────────────────────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  max-width: 680px;
+}
+
+/* Vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+.tl-item {
+  position: relative;
+  padding-bottom: 2.2rem;
+}
+.tl-item:last-child { padding-bottom: 0; }
+
+/* Dot on the line */
+.tl-marker {
+  position: absolute;
+  left: -2rem;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.tl-item:hover .tl-marker,
+.tl-current .tl-marker {
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(99,102,241,0.6);
+}
+
+/* Pulsing glow on current item */
+.tl-current .tl-marker {
+  animation: tl-pulse 2s ease-in-out infinite;
+}
+@keyframes tl-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(99,102,241,0.5); }
+  50%       { box-shadow: 0 0 16px rgba(99,102,241,0.9); }
+}
+
+.tl-date {
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.04em;
+}
+
+.tl-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.tl-item:hover .tl-card {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.tl-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.tl-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.tl-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 /* CONTACT CARD HIGHLIGHT */
 .find-me-contact {
   border-color: rgba(99,102,241,0.35) !important;
