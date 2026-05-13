@@ -22,14 +22,16 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install scratchattach
+        run: pip install scratchattach requests
 
-      - name: Fetch and update follower count
+      - name: Fetch and update stats
         run: python update_stats.py
+        env:
+          ITCH_API_KEY: ${{ secrets.ITCH_API_KEY }}
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git diff --staged --quiet || (git commit -m "chore: auto-update Scratch follower count" && git push)
+          git diff --staged --quiet || (git commit -m "chore: auto-update live stats" && git push)
