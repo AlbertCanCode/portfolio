@@ -469,6 +469,63 @@ nav ul a:hover { color: var(--text); }
 }
 
 /* SKILLS */
+/* ─── SKILL BARS ─────────────────────────────────────────────────────────── */
+.skill-bars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.skill-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.skill-bar-row:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.skill-bar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 90px;
+}
+.skill-bar-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.skill-bar-level {
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--accent);
+}
+
+.skill-bar-dots {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.full  { background: var(--accent); box-shadow: 0 0 5px rgba(99,102,241,0.5); }
+.dot.half  { background: linear-gradient(90deg, var(--accent) 50%, var(--border) 50%); }
+.dot.empty { background: var(--border); }
+
+/* ─── SKILLS GRID ───────────────────────────────────────────────────────── */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
