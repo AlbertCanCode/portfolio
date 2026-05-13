@@ -715,13 +715,28 @@ nav ul a.active {
   font-weight: 600;
 }
 
-/* CARD THUMBNAIL ZOOM */
-.card-img { overflow: hidden; }
+/* CARD THUMBNAIL ZOOM + OVERLAY */
+.card-img {
+  overflow: hidden;
+  position: relative;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(99,102,241,0.18) 0%, rgba(0,0,0,0.32) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.card:hover .card-img::after {
+  opacity: 1;
+}
 .card-img img {
-  transition: transform 0.35s ease;
+  transition: transform 0.4s ease;
 }
 .card:hover .card-img img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
 /* BACK TO TOP */
