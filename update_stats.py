@@ -219,8 +219,10 @@ if __name__ == "__main__":
     hero_updates["combined-views"] = format_hero(combined)
 
     # Inline span updates (body text sentences)
+    fmt_scratch_plus = format_count(scratch_views) + "+"
     inline_updates = {
         "combined-views": fmt_combined_plus,
+        "scratch-views":  fmt_scratch_plus,
     }
     if itch_views is not None:
         fmt_itch_plus = format_count(itch_views) + "+"
