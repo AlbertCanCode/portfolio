@@ -123,14 +123,16 @@ document.getElementById('year').textContent = new Date().getFullYear();
 // Reads saved preference from localStorage, defaults to dark
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = themeToggle.querySelector('.theme-icon');
+const themeLabel  = themeToggle.querySelector('.theme-label');
 
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
-  themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+  themeIcon.textContent  = theme === 'light' ? '🌙' : '☀️';
+  themeLabel.textContent = theme === 'light' ? 'Dark' : 'Light';
   localStorage.setItem('theme', theme);
 }
 
-// Apply saved preference (or dark by default) immediately on load
+// Apply saved preference (or dark by default) on load
 applyTheme(localStorage.getItem('theme') || 'dark');
 
 themeToggle.addEventListener('click', () => {

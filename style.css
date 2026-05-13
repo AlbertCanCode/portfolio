@@ -33,6 +33,7 @@
 }
 
 html { scroll-behavior: smooth; }
+html, html * { transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
 
 /* SCROLL PROGRESS */
 .scroll-progress {
@@ -97,29 +98,29 @@ nav ul a:hover { color: var(--text); }
   font-weight: 600;
 }
 
-/* NAV RIGHT — wraps theme toggle + hamburger */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* THEME TOGGLE */
+/* THEME TOGGLE — styled as a nav pill to match other links */
 .theme-toggle {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 34px;
-  height: 34px;
-  cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: border-color 0.2s, background 0.2s;
-  flex-shrink: 0;
+  gap: 0.35rem;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: var(--font);
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  white-space: nowrap;
 }
-.theme-toggle:hover { border-color: var(--accent); background: rgba(99,102,241,0.08); }
+.theme-toggle:hover {
+  background: rgba(99,102,241,0.2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.theme-icon { font-size: 0.9rem; }
 
 /* HAMBURGER */
 .nav-hamburger {
