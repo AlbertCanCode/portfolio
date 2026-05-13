@@ -119,6 +119,25 @@ document.querySelectorAll('#navMenu a').forEach(a => {
 // Keeps the copyright year current automatically
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// ─── LIGHT / DARK MODE TOGGLE ────────────────────────────────────────────────
+// Reads saved preference from localStorage, defaults to dark
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon   = themeToggle.querySelector('.theme-icon');
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('theme', theme);
+}
+
+// Apply saved preference (or dark by default) immediately on load
+applyTheme(localStorage.getItem('theme') || 'dark');
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'light' ? 'dark' : 'light');
+});
+
 // ─── ANIMATED NUMBER COUNTERS ────────────────────────────────────────────────
 // Counts up hero stats from 0 when they scroll into view (ease-out cubic curve)
 const counters = document.querySelectorAll('.stat-num[data-target]');

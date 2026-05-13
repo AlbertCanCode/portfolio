@@ -14,6 +14,22 @@
   --radius: 12px;
   --font: 'Inter', system-ui, sans-serif;
   --mono: 'JetBrains Mono', monospace;
+  --nav-bg: rgba(10, 10, 15, 0.85);
+  --section-alt-bg: #0d0d14;
+}
+
+/* ─── LIGHT MODE ─────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg: #f4f5fb;
+  --bg2: #eaecf7;
+  --surface: #ffffff;
+  --border: #d8daf0;
+  --text: #0f0f1e;
+  --text-muted: #5c5c80;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --nav-bg: rgba(244, 245, 251, 0.88);
+  --section-alt-bg: #eaecf7;
 }
 
 html { scroll-behavior: smooth; }
@@ -49,7 +65,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: rgba(10, 10, 15, 0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -80,6 +96,30 @@ nav ul a:hover { color: var(--text); }
   color: var(--accent) !important;
   font-weight: 600;
 }
+
+/* NAV RIGHT — wraps theme toggle + hamburger */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* THEME TOGGLE */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--accent); background: rgba(99,102,241,0.08); }
 
 /* HAMBURGER */
 .nav-hamburger {
@@ -560,7 +600,7 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
 }
 
 /* SECTION VARIANTS */
-.section-alt { background: #0d0d14; }
+.section-alt { background: var(--section-alt-bg); }
 
 /* SCRATCH RECORD */
 .record-nums {
@@ -885,6 +925,63 @@ footer {
 .testimonial-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
 .testimonial-role { font-size: 0.72rem; font-family: var(--mono); color: var(--accent); }
 .testimonial-context { font-size: 0.72rem; font-family: var(--mono); color: var(--text-muted); }
+
+/* CONTACT CARD HIGHLIGHT */
+.find-me-contact {
+  border-color: rgba(99,102,241,0.35) !important;
+}
+.find-me-contact:hover {
+  border-color: var(--accent) !important;
+  background: rgba(99,102,241,0.1) !important;
+}
+
+/* ─── LIGHT MODE OVERRIDES ───────────────────────────────────────────────── */
+/* Elements that use hardcoded dark colours need explicit light-mode fixes   */
+
+[data-theme="light"] body { background: var(--bg); color: var(--text); }
+
+/* Hero noise texture — slightly more visible on light bg */
+[data-theme="light"] .hero::before { opacity: 0.018; }
+
+/* Cards */
+[data-theme="light"] .card { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+/* Tags */
+[data-theme="light"] .tag {
+  background: rgba(99,102,241,0.1);
+  border-color: rgba(99,102,241,0.25);
+}
+
+/* WIP badge (was hardcoded dark teal) */
+[data-theme="light"] .card-badge-wip {
+  background: #ccfbf1;
+  color: #0f766e;
+  border-color: #5eead4;
+}
+
+/* Skill pills */
+[data-theme="light"] .skill-pill {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* Record stats */
+[data-theme="light"] .record-stat {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* Scroll progress bar stays accent colour — fine in both modes */
+
+/* Filter count badge */
+[data-theme="light"] .filter-btn:not(.active) .filter-count {
+  background: var(--border);
+  color: var(--text-muted);
+}
+
+/* Testimonial quote watermark */
+[data-theme="light"] .testimonial-card::before { color: rgba(99,102,241,0.08); }
 
 /* PREFERS REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
