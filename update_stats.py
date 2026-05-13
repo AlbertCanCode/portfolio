@@ -27,14 +27,14 @@ def get_scratch_followers(username):
 
 # ─── ITCH.IO ──────────────────────────────────────────────────────────────────
 
-def get_itch_downloads(api_key):
-    """Fetch total download count across all itch.io games."""
+def get_itch_views(api_key):
+    """Fetch total view count across all itch.io games."""
     url = f"https://itch.io/api/1/{api_key}/my-games"
     try:
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         games = resp.json().get("games", [])
-        total = sum(g.get("downloads_count", 0) for g in games)
+        total = sum(g.get("views_count", 0) for g in games)
         return total
     except Exception as e:
         print(f"Warning: could not fetch itch.io stats — {e}")
@@ -99,11 +99,11 @@ if __name__ == "__main__":
     itch_api_key = os.environ.get("ITCH_API_KEY")
     if itch_api_key:
         print(f"Fetching itch.io downloads for {ITCH_USERNAME}...")
-        downloads = get_itch_downloads(itch_api_key)
-        if downloads is not None:
-            formatted_downloads = format_count(downloads)
-            print(f"  itch.io downloads: {downloads} → '{formatted_downloads}'")
-            updates["Total downloads across all itch.io games"] = formatted_downloads
+        views = get_itch_views(itch_api_key)
+        if views is not None:
+            formatted_views = format_count(views)
+            print(f"  itch.io views: {views} → '{formatted_views}'")
+            updates["Total views across all itch.io games"] = formatted_views
     else:
         print("Skipping itch.io stats (ITCH_API_KEY not set).")
 
