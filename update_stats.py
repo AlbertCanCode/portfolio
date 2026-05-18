@@ -21,6 +21,21 @@ SCRATCH_ACCOUNTS  = ["ChessProking-tm", "ChessProking-alt", "netheradventurer"]
 ITCH_USERNAME     = "albertcancode"
 HTML_FILE         = "index.html"
 
+# Individual Scratch projects to show view counts on cards
+SCRATCH_PROJECTS  = {
+    807697148:  "Paper Minecraft",
+    1100198505: "Kingdom of Solandria",
+    1251202591: "Cookie Guardian",
+    1257684630: "Echoed Path",
+    1147462165: "Pot o Gold Rush",
+    1258036936: "Kingdom of Solandria 2",
+    1291794439: "Save the Souls",
+    884017618:  "Geometry Dash: Chroma Shift",
+    1212065140: "Round and Wound",
+    1245605623: "Gobble Craft",
+    1115457053: "All Soccer Simulator",
+}
+
 
 # ─── SCRATCH ──────────────────────────────────────────────────────────────────
 
@@ -218,7 +233,7 @@ if __name__ == "__main__":
     record_updates["Combined views across Scratch and itch.io"] = fmt_combined
     hero_updates["combined-views"] = format_hero(combined)
 
-    # Inline span updates (body text sentences)
+    # Inline span updates (body text sentences + project views)
     fmt_scratch_plus = format_count(scratch_views) + "+"
     inline_updates = {
         "combined-views": fmt_combined_plus,
@@ -227,6 +242,19 @@ if __name__ == "__main__":
     if itch_views is not None:
         fmt_itch_plus = format_count(itch_views) + "+"
         inline_updates["itch-views"] = fmt_itch_plus
+
+    # Individual project view counts
+    print("Fetching individual project views...")
+    for project_id, name in SCRATCH_PROJECTS.items():
+        try:
+            project = sa.get_project(project_id)
+            views = project.views
+            fmt = format_count(views)
+            print(f"  {name}: {views} → '{fmt}'")
+            inline_updates[f"project-{project_id}"] = fmt
+        except Exception as e:
+            print(f"  Warning: could not fetch views for {name}: {e}")
+        time.sleep(0.2)
 
     # Write everything
     changed = update_html(HTML_FILE, record_updates, hero_updates, inline_updates, fmt_combined_plus)

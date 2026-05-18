@@ -431,6 +431,13 @@ nav ul a:hover { color: var(--text); }
   margin-bottom: 1rem;
 }
 
+.card-views {
+  font-size: 0.75rem;
+  font-family: var(--mono);
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
 .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
 
 .tag {
