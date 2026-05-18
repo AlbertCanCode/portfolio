@@ -164,3 +164,39 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.6 });
 counters.forEach(c => counterObserver.observe(c));
+
+// ─── KONAMI CODE EASTER EGG ──────────────────────────────────────────────────
+// ↑ ↑ ↓ ↓ ← → ← → B A — shows a "cheat code activated" toast
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIndex = 0;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === KONAMI[konamiIndex]) {
+    konamiIndex++;
+    if (konamiIndex === KONAMI.length) {
+      konamiIndex = 0;
+      showKonamiToast();
+    }
+  } else {
+    konamiIndex = e.key === KONAMI[0] ? 1 : 0;
+  }
+});
+
+function showKonamiToast() {
+  // Don't stack duplicates
+  if (document.getElementById('konamiToast')) return;
+
+  const toast = document.createElement('div');
+  toast.id = 'konamiToast';
+  toast.textContent = '🎮 Cheat code activated! +30 lives';
+  document.body.appendChild(toast);
+
+  // Slide in
+  requestAnimationFrame(() => toast.classList.add('konami-show'));
+
+  // Slide out after 3s
+  setTimeout(() => {
+    toast.classList.remove('konami-show');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 3000);
+}
