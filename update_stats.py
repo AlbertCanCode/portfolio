@@ -180,7 +180,8 @@ def update_html(filepath, record_updates, hero_updates, inline_updates, combined
         html = update_hero_stat(html, stat_key, target, suffix, display)
     for auto_key, value in inline_updates.items():
         html = update_inline_spans(html, auto_key, value)
-    html = update_meta_descriptions(html, combined_value)
+    if combined_value is not None:
+        html = update_meta_descriptions(html, combined_value)
 
     if html == original:
         print("All stats unchanged — no update needed.")
@@ -225,35 +226,45 @@ if __name__ == "__main__":
     else:
         print("Skipping itch.io stats (ITCH_API_KEY not set).")
 
-    # Combined views (Scratch + itch.io)
-    combined = scratch_views + (itch_views or 0)
-    fmt_combined = format_count(combined)
-    fmt_combined_plus = fmt_combined + "+"
-    print(f"  Combined views: {combined} → '{fmt_combined_plus}'")
-    record_updates["Combined views across Scratch and itch.io"] = fmt_combined
-    hero_updates["combined-views"] = format_hero(combined)
+    # Combined views (Scratch + itch.io) — only update when itch data is available
+    if itch_views is not None:
+        combined = scratch_views + itch_views
+        fmt_combined = format_count(combined)
+        fmt_combined_plus = fmt_combined + "+"
+        print(f"  Combined views: {combined} → '{fmt_combined_plus}'")
+        record_updates["Combined views across Scratch and itch.io"] = fmt_combined
+        hero_updates["combined-views"] = format_hero(combined)
+    else:
+        fmt_combined_plus = None  # sentinel: skip combined inline update
 
     # Inline span updates (body text sentences + project views)
     fmt_scratch_plus = format_count(scratch_views) + "+"
     inline_updates = {
-        "combined-views": fmt_combined_plus,
-        "scratch-views":  fmt_scratch_plus,
+        "scratch-views": fmt_scratch_plus,
     }
+    if fmt_combined_plus is not None:
+        inline_updates["combined-views"] = fmt_combined_plus
     if itch_views is not None:
         fmt_itch_plus = format_count(itch_views) + "+"
         inline_updates["itch-views"] = fmt_itch_plus
 
-    # Individual project view counts
+    # Individual project view counts (views, loves, faves)
     print("Fetching individual project views...")
     for project_id, name in SCRATCH_PROJECTS.items():
         try:
             project = sa.get_project(project_id)
             views = project.views
-            fmt = format_count(views)
-            print(f"  {name}: {views} → '{fmt}'")
-            inline_updates[f"project-{project_id}"] = fmt
+            loves = project.loves
+            faves = project.favorites
+            fmt_views = format_count(views)
+            fmt_loves = format_count(loves)
+            fmt_faves = format_count(faves)
+            print(f"  {name}: views={views} loves={loves} faves={faves} → '{fmt_views}' / '{fmt_loves}' / '{fmt_faves}'")
+            inline_updates[f"project-{project_id}-views"] = fmt_views
+            inline_updates[f"project-{project_id}-loves"] = fmt_loves
+            inline_updates[f"project-{project_id}-faves"] = fmt_faves
         except Exception as e:
-            print(f"  Warning: could not fetch views for {name}: {e}")
+            print(f"  Warning: could not fetch stats for {name}: {e}")
         time.sleep(0.2)
 
     # Write everything
