@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPSF Final — Matchday Dossier</title>
+<meta name="description" content="Matchday dossier for the IPSF tournament final — recovery plan, countdown, tactics, and game-day logistics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0A1A3F;
+    --navy-darker:#071431;
+    --royal:#1E44B8;
+    --gold:#FFC61A;
+    --pitch:#11694A;
+    --chalk:#F4F6FB;
+    --amber-bg:#FDF3DF;
+    --amber-text:#B8791C;
+    --blue-bg:#E9EEFC;
+    --blue-text:#1E3A8A;
+    --green-bg:#E7F5EE;
+    --green-text:#0E5138;
+    --ink:#111827;
+    --ink-soft:#4B5563;
+    --card-radius:16px;
+    --shadow:0 6px 18px rgba(10,26,63,0.10), 0 2px 6px rgba(10,26,63,0.06);
+    --max-w:760px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--chalk);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.oswald{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    margin:0;
+  }
+  p{margin:0 0 0.75em;}
+  p:last-child{margin-bottom:0;}
+  .wrap{max-width:var(--max-w); margin:0 auto; padding:0 18px;}
+  img{max-width:100%;}
+
+  /* ---------- HERO / SCOREBOARD ---------- */
+  .hero{
+    background:
+      radial-gradient(circle at 20% -10%, rgba(255,198,26,0.12), transparent 55%),
+      linear-gradient(160deg, var(--navy-deep) 0%, var(--navy-darker) 100%);
+    color:#fff;
+    padding:38px 0 30px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:4px solid var(--gold);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 40px);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Oswald',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    color:var(--gold);
+    background:rgba(255,198,26,0.12);
+    border:1px solid rgba(255,198,26,0.35);
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:16px;
+  }
+  .hero-eyebrow .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 3px rgba(255,198,26,0.25);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.35;}
+  }
+  .hero h1{
+    font-size:2.1rem;
+    line-height:1.08;
+    margin-bottom:10px;
+  }
+  .hero h1 span{color:var(--gold);}
+  .hero-sub{
+    font-family:'Inter',sans-serif;
+    text-transform:none;
+    letter-spacing:normal;
+    color:#C6D0EE;
+    font-size:0.98rem;
+    margin-bottom:24px;
+    max-width:46ch;
+  }
+
+  .scoreboard{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:var(--card-radius);
+    padding:18px 16px;
+    backdrop-filter:blur(2px);
+  }
+  .scoreboard-label{
+    font-family:'Oswald',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.18em;
+    color:#93A3D6;
+    text-align:center;
+    margin-bottom:10px;
+  }
+  .countdown{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+    text-align:center;
+  }
+  .countdown .cd-block{
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border-radius:10px;
+    padding:10px 4px;
+    border:1px solid rgba(255,255,255,0.10);
+  }
+  .countdown .cd-num{
+    font-family:'Oswald',sans-serif;
+    font-size:1.55rem;
+    font-weight:600;
+    color:var(--gold);
+    font-variant-numeric:tabular-nums;
+  }
+  .countdown .cd-unit{
+    font-size:0.62rem;
+    letter-spacing:0.12em;
+    color:#93A3D6;
+    text-transform:uppercase;
+    margin-top:2px;
+  }
+  .scoreboard-meta{
+    display:flex;
+    justify-content:space-between;
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px dashed rgba(255,255,255,0.18);
+    font-size:0.78rem;
+    color:#C6D0EE;
+  }
+  .scoreboard-meta b{color:#fff; font-weight:600;}
+
+  /* ---------- MAIN LAYOUT ---------- */
+  main{padding:8px 0 10px;}
+  .section{
+    padding:38px 0 6px;
+    opacity:1;
+  }
+  .section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .num-chip{
+    flex:none;
+    width:38px; height:38px;
+    border-radius:10px;
+    background:linear-gradient(155deg, var(--gold), #E8A800);
+    color:var(--navy-darker);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 3px 8px rgba(232,168,0,0.35);
+  }
+  .section-head h2{
+    font-size:1.28rem;
+    color:var(--navy-deep);
+  }
+  .section-head .kicker{
+    display:block;
+    font-family:'Oswald',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.16em;
+    color:var(--royal);
+    margin-bottom:2px;
+  }
+  .lede{color:var(--ink-soft); margin-bottom:18px; font-size:0.96rem;}
+
+  /* ---------- CARDS ---------- */
+  .card{
+    background:#fff;
+    border-radius:var(--card-radius);
+    box-shadow:var(--shadow);
+    padding:18px 18px;
+    margin-bottom:14px;
+    border:1px solid rgba(10,26,63,0.05);
+  }
+  .card h3{
+    font-size:1rem;
+    color:var(--navy-deep);
+    margin-bottom:8px;
+  }
+  .card-label{
+    display:inline-block;
+    font-family:'Oswald',sans-serif;
+    font-size:0.66rem;
+    letter-spacing:0.14em;
+    color:var(--royal);
+    background:var(--blue-bg);
+    padding:3px 9px;
+    border-radius:6px;
+    margin-bottom:10px;
+  }
+
+  /* ---------- CALLOUTS ---------- */
+  .callout{
+    border-radius:14px;
+    padding:16px 16px;
+    margin-bottom:14px;
+    border:1px solid transparent;
+    font-size:0.94rem;
+  }
+  .callout-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Oswald',sans-serif;
+    font-size:0.76rem;
+    letter-spacing:0.1em;
+    margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  .callout-icon{
+    width:22px; height:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.72rem;
+    flex:none;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+  }
+  .callout.c-amber{background:var(--amber-bg); border-color:#F4DDA6; color:#7A5312;}
+  .callout.c-amber .callout-head{color:var(--amber-text);}
+  .callout.c-amber .callout-icon{background:#F4DDA6; color:var(--amber-text);}
+  .callout.c-blue{background:var(--blue-bg); border-color:#C9D6F5; color:#1E2E5C;}
+  .callout.c-blue .callout-head{color:var(--blue-text);}
+  .callout.c-blue .callout-icon{background:#C9D6F5; color:var(--blue-text);}
+  .callout.c-green{background:var(--green-bg); border-color:#B9E3CD; color:#0E4530;}
+  .callout.c-green .callout-head{color:var(--green-text);}
+  .callout.c-green .callout-icon{background:#B9E3CD; color:var(--green-text);}
+
+  /* ---------- RECOVERY UPDATE BLOCK ---------- */
+  .update-block{
+    background:linear-gradient(180deg, #fff, #FBFCFE);
+    border:1px solid #E3E8F5;
+    border-left:5px solid var(--royal);
+    border-radius:var(--card-radius);
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+  }
+  .update-date{
+    font-family:'Oswald',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    color:var(--royal);
+    margin-bottom:10px;
+  }
+  .update-block h3{color:var(--navy-deep); font-size:1rem; margin:14px 0 6px;}
+  .update-block h3:first-of-type{margin-top:0;}
+  .update-block p{color:var(--ink-soft); font-size:0.94rem;}
+
+  .sleep-card{
+    background:var(--navy-deep);
+    color:#fff;
+    border-radius:var(--card-radius);
+    padding:18px;
+    margin-bottom:14px;
+    box-shadow:var(--shadow);
+  }
+  .sleep-card .card-label{background:rgba(255,198,26,0.15); color:var(--gold);}
+  .sleep-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px dashed rgba(255,255,255,0.16);
+  }
+  .sleep-row:last-of-type{border-bottom:none;}
+  .sleep-row .sr-label{font-size:0.82rem; color:#AEBBE8;}
+  .sleep-row .sr-val{font-family:'Oswald',sans-serif; font-size:1.02rem; color:#fff;}
+  .sleep-total{
+    margin-top:10px;
+    text-align:center;
+    font-family:'Oswald',sans-serif;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    color:var(--gold);
+    background:rgba(255,198,26,0.10);
+    border-radius:8px;
+    padding:8px;
+  }
+
+  .targets-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .target-item{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:#fff;
+    border-radius:12px;
+    padding:12px 14px;
+    box-shadow:var(--shadow);
+  }
+  .target-item .t-ico{
+    flex:none;
+    width:30px; height:30px;
+    border-radius:8px;
+    background:var(--green-bg);
+    color:var(--pitch);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-family:'Oswald',sans-serif;
+    font-size:0.85rem;
+  }
+  .target-item .t-title{font-weight:600; font-size:0.92rem; color:var(--navy-deep);}
+  .target-item .t-desc{font-size:0.85rem; color:var(--ink-soft);}
+
+  /* ---------- TICKET TIMELINE ---------- */
+  .timeline{display:flex; flex-direction:column; gap:12px;}
+  .day{
+    position:relative;
+    display:flex;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    border:1px solid rgba(10,26,63,0.06);
+  }
+  .day-stub{
+    flex:none;
+    width:78px;
+    background:var(--navy-deep);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:12px 4px;
+    position:relative;
+  }
+  .day-stub .d-name{font-family:'Oswald',sans-serif; font-size:0.78rem; letter-spacing:0.06em;}
+  .day-stub .d-date{font-size:0.66rem; color:#93A3D6; margin-top:2px;}
+  .day-stub::after{
+    content:"";
+    position:absolute;
+    right:-8px; top:50%;
+    transform:translateY(-50%);
+    width:16px; height:16px;
+    background:var(--chalk);
+    border-radius:50%;
+  }
+  .day-body{
+    flex:1;
+    padding:12px 16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+    border-left:2px dashed #E1E6F2;
+  }
+  .day-body .d-title{font-weight:600; font-size:0.92rem; color:var(--navy-deep);}
+  .day-body .d-detail{font-size:0.83rem; color:var(--ink-soft);}
+  .day-body .d-tag{
+    display:inline-block;
+    margin-top:4px;
+    font-family:'Oswald',sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.1em;
+    padding:2px 8px;
+    border-radius:6px;
+    width:fit-content;
+  }
+  .day.is-travel .day-stub{background:#7A4A12;}
+  .day.is-travel .d-tag{background:var(--amber-bg); color:var(--amber-text);}
+  .day.is-final{border:2px solid var(--gold); box-shadow:0 8px 20px rgba(255,198,26,0.25);}
+  .day.is-final .day-stub{background:linear-gradient(155deg, var(--gold), #C98F00); color:var(--navy-darker);}
+  .day.is-final .day-stub .d-date{color:rgba(10,26,63,0.6);}
+  .day.is-final .d-tag{background:#FFF3CC; color:#8A6100;}
+
+  /* ---------- LISTS / DRILLS ---------- */
+  .drill-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .drill-list li{
+    display:flex;
+    gap:12px;
+    background:#fff;
+    border-radius:12px;
+    padding:12px 14px;
+    box-shadow:var(--shadow);
+    align-items:flex-start;
+  }
+  .drill-list .dl-num{
+    flex:none;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--blue-bg);
+    color:var(--royal);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:0.8rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .drill-list b{color:var(--navy-deep);}
+  .drill-list span{display:block; font-size:0.85rem; color:var(--ink-soft); margin-top:2px;}
+
+  /* ---------- COMPARISON TABLE ---------- */
+  .cmp-table-wrap{
+    background:#fff;
+    border-radius:var(--card-radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  table.cmp{width:100%; border-collapse:collapse; font-size:0.86rem;}
+  table.cmp th{
+    font-family:'Oswald',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:var(--navy-deep);
+    color:#fff;
+    padding:10px 8px;
+    text-align:left;
+  }
+  table.cmp th:first-child{width:34%;}
+  table.cmp td{
+    padding:11px 8px;
+    border-bottom:1px solid #EEF1FA;
+    color:var(--ink-soft);
+    vertical-align:top;
+  }
+  table.cmp tr:last-child td{border-bottom:none;}
+  table.cmp td.us{color:var(--pitch); font-weight:600;}
+  table.cmp td.them{color:#8A5A2A;}
+  table.cmp td.row-label{font-weight:600; color:var(--navy-deep);}
+
+  /* ---------- CHALKBOARD CARDS ---------- */
+  .chalk-grid{display:flex; flex-direction:column; gap:14px;}
+  .chalk{
+    position:relative;
+    background:linear-gradient(160deg, var(--pitch), #0C4E38);
+    color:#EAF7F1;
+    border-radius:var(--card-radius);
+    padding:20px 18px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(17,105,74,0.28);
+  }
+  .chalk::before{
+    content:"";
+    position:absolute;
+    width:220px; height:220px;
+    border:1.5px dashed rgba(255,255,255,0.18);
+    border-radius:50%;
+    right:-90px; top:-90px;
+  }
+  .chalk::after{
+    content:"";
+    position:absolute;
+    width:140px; height:140px;
+    border:1.5px dashed rgba(255,255,255,0.14);
+    border-radius:50%;
+    left:-60px; bottom:-70px;
+  }
+  .chalk .chalk-top{display:flex; align-items:center; gap:10px; margin-bottom:10px; position:relative; z-index:1;}
+  .chalk .num-chip{background:linear-gradient(155deg, var(--gold), #E8A800); box-shadow:none;}
+  .chalk h3{color:#fff; font-size:1.02rem;}
+  .chalk .chalk-tag{
+    font-family:'Oswald',sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.12em;
+    color:var(--gold);
+    margin-bottom:2px;
+    display:block;
+  }
+  .chalk p{position:relative; z-index:1; font-size:0.9rem; color:#D7EDE3;}
+  .chalk.chalk-highlight{
+    background:linear-gradient(160deg, var(--royal), #142E7D);
+    box-shadow:0 8px 20px rgba(30,68,184,0.32);
+  }
+  .chalk.chalk-highlight p{color:#DDE5FA;}
+  .chalk.chalk-highlight .chalk-tag{color:var(--gold);}
+
+  /* ---------- CUES / NUMBERED CUES ---------- */
+  .cue-grid{display:flex; flex-direction:column; gap:10px; margin-bottom:14px;}
+  .cue{
+    display:flex;
+    gap:12px;
+    background:#fff;
+    border-radius:12px;
+    padding:13px 15px;
+    box-shadow:var(--shadow);
+    align-items:center;
+  }
+  .cue .c-mark{
+    flex:none;
+    width:30px; height:30px;
+    border-radius:8px;
+    background:var(--navy-deep);
+    color:var(--gold);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.8rem;
+  }
+  .cue .c-text{font-size:0.9rem; color:var(--ink); font-weight:500;}
+
+  /* ---------- RULES ---------- */
+  .rules-grid{display:flex; flex-direction:column; gap:10px;}
+  .rule-item{
+    background:#fff;
+    border-radius:12px;
+    padding:13px 15px;
+    box-shadow:var(--shadow);
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+  }
+  .rule-item .r-ico{
+    flex:none;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--blue-bg);
+    color:var(--royal);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Oswald',sans-serif;
+    font-size:0.75rem;
+    font-weight:700;
+  }
+  .rule-item b{display:block; font-size:0.9rem; color:var(--navy-deep); margin-bottom:2px;}
+  .rule-item span{font-size:0.84rem; color:var(--ink-soft);}
+
+  /* ---------- GAME DAY ---------- */
+  .clock-callout{
+    background:linear-gradient(160deg, var(--navy-deep), var(--navy-darker));
+    color:#fff;
+    border-radius:var(--card-radius);
+    padding:20px 18px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+  }
+  .clock-callout .card-label{background:rgba(255,198,26,0.14); color:var(--gold);}
+  .clock-math{display:flex; flex-direction:column; gap:8px; margin-top:8px;}
+  .clock-math .cm-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px 12px;
+    background:rgba(255,255,255,0.06);
+    border-radius:9px;
+    font-size:0.86rem;
+  }
+  .clock-math .cm-row .cm-time{font-family:'Oswald',sans-serif; color:var(--gold); font-size:0.95rem;}
+
+  .gd-steps{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:0;}
+  .gd-steps li{
+    position:relative;
+    padding:0 0 18px 26px;
+    border-left:2px solid #E1E6F2;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+  }
+  .gd-steps li:last-child{border-left:2px solid transparent; padding-bottom:0;}
+  .gd-steps li::before{
+    content:"";
+    position:absolute;
+    left:-6px; top:2px;
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--royal);
+    border:2px solid #fff;
+    box-shadow:0 0 0 2px #E1E6F2;
+  }
+  .gd-steps li b{color:var(--navy-deep); display:block; font-size:0.92rem; margin-bottom:2px;}
+
+  .pack-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .pack-card{
+    background:#fff;
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:15px 16px;
+  }
+  .pack-card h4{font-size:0.8rem; color:var(--royal); margin-bottom:8px;}
+  .pack-card ul{margin:0; padding:0; list-style:none;}
+  .pack-card li{
+    font-size:0.86rem;
+    color:var(--ink-soft);
+    padding:5px 0 5px 20px;
+    position:relative;
+  }
+  .pack-card li::before{
+    content:"";
+    position:absolute;
+    left:0; top:10px;
+    width:9px; height:9px;
+    border-radius:3px;
+    border:2px solid var(--gold);
+  }
+
+  /* ---------- STARTING FIVE / LINEUP ---------- */
+  .lineup{
+    background:linear-gradient(180deg, var(--navy-deep), var(--navy-darker));
+    color:#fff;
+    padding:40px 0 44px;
+    margin-top:20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .lineup::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 42px);
+    pointer-events:none;
+  }
+  .lineup .section-head h2{color:#fff;}
+  .lineup .section-head .kicker{color:var(--gold);}
+  .lineup-sub{color:#AEBBE8; font-size:0.92rem; margin-bottom:20px;}
+  .lineup-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; position:relative; z-index:1;}
+  .lineup-list li{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:14px;
+    padding:14px 16px;
+  }
+  .jersey{
+    flex:none;
+    width:42px; height:42px;
+    border-radius:50%;
+    background:linear-gradient(155deg, var(--gold), #C98F00);
+    color:var(--navy-darker);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:1.1rem;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.25);
+  }
+  .lineup-list b{display:block; font-size:0.94rem; color:#fff; margin-bottom:2px;}
+  .lineup-list span{font-size:0.83rem; color:#AEBBE8;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-darker);
+    color:#7C8AC0;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.78rem;
+  }
+  footer .f-title{font-family:'Oswald',sans-serif; color:#fff; font-size:0.9rem; letter-spacing:0.06em; margin-bottom:4px;}
+  footer .f-tag{color:var(--gold); letter-spacing:0.1em; font-family:'Oswald',sans-serif; font-size:0.7rem; margin-top:6px;}
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .rv{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .rv.rv-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- WIDER SCREENS ---------- */
+  @media (min-width:480px){
+    .wrap{padding:0 24px;}
+    .hero h1{font-size:2.4rem;}
+    .pack-grid{grid-template-columns:repeat(3, 1fr);}
+    .targets-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow"><span class="dot"></span> Matchday Dossier</div>
+    <h1>IPSF Tournament <span>Final</span></h1>
+    <p class="hero-sub">Everything for the final push — recovery status, countdown, tactics, and the game-day plan. Saturday, August 8, 2026 · Kickoff 6:00 AM.</p>
+
+    <div class="scoreboard">
+      <div class="scoreboard-label">Kickoff In</div>
+      <div class="countdown" id="countdown">
+        <div class="cd-block"><div class="cd-num" id="cd-d">–</div><div class="cd-unit">Days</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-h">–</div><div class="cd-unit">Hours</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-m">–</div><div class="cd-unit">Mins</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-s">–</div><div class="cd-unit">Kickoff</div></div>
+      </div>
+      <div class="scoreboard-meta">
+        <span>Opponent: <b>TBD (Final)</b></span>
+        <span>Venue: <b>IPSF Pitch</b></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- 01 RECOVERY FIRST -->
+    <section class="section" id="recovery">
+      <div class="section-head rv">
+        <div class="num-chip">01</div>
+        <div><span class="kicker">Priority One</span><h2>Recovery First</h2></div>
+      </div>
+      <p class="lede rv">Before anything tactical — this is where things actually stand physically, updated the night before the final.</p>
+
+      <div class="update-block rv">
+        <div class="update-date">Update · Friday, August 7</div>
+        <h3>Thursday's Drive</h3>
+        <p>The drive down had a rough patch — a real fever scare, sitting in a hot car, and dehydration that got worse because there was no way to stop for a bathroom for a long stretch. By the time a stop finally happened, it was a genuinely painful hold. All of it got handled once the car stopped, but it was a real dip, not a minor discomfort.</p>
+        <h3>Where Things Stand Now</h3>
+        <p>By Friday, the fever had passed. What's left is a blocked nose, a mild headache, and feeling a bit cold — tail-end symptoms working their way out, not new warning signs. Nothing here is getting worse; it's the tail of Thursday, not the start of something new.</p>
+      </div>
+
+      <div class="sleep-card rv">
+        <span class="card-label">Friday Night Sleep Plan</span>
+        <h3 style="color:#fff;">Built Around the 6 AM Kickoff</h3>
+        <div class="sleep-row">
+          <span class="sr-label">Bed</span>
+          <span class="sr-val">~10:30 PM</span>
+        </div>
+        <div class="sleep-row">
+          <span class="sr-label">Wake</span>
+          <span class="sr-val">~4:45 AM</span>
+        </div>
+        <div class="sleep-row">
+          <span class="sr-label">Sleep window</span>
+          <span class="sr-val">~6h 15m</span>
+        </div>
+        <div class="sleep-total">Workable — not ideal, but backed by 3 solid 8+ hour nights already banked earlier this week.</div>
+      </div>
+
+      <div class="callout c-blue rv">
+        <div class="callout-head"><span class="callout-icon">i</span> Not a Solo Call</div>
+        <p>Lingering fatigue or symptoms this close to game day are exactly the kind of thing that should involve a parent in the game-day decision — how to warm up, how hard to push, whether to start cautious. This isn't something to quietly push through alone; it's a call to make together in the morning based on how things actually feel.</p>
+      </div>
+
+      <div class="card rv">
+        <span class="card-label">On the Scale</span>
+        <h3>The 4–5 lb Drop Isn't Muscle</h3>
+        <p style="color:var(--ink-soft); font-size:0.9rem;">Cutting milk during the training retreat led to a 4–5 lb drop — that's water and glycogen, not muscle, and it comes back on its own once eating normalizes. Worth knowing so the scale doesn't become one more thing to stress about before the game.</p>
+      </div>
+
+      <div class="targets-grid rv">
+        <div class="target-item">
+          <div class="t-ico">Zz</div>
+          <div><div class="t-title">Sleep 8+</div><div class="t-desc">Every night this week except the necessary short one Friday.</div></div>
+        </div>
+        <div class="target-item">
+          <div class="t-ico">Eat</div>
+          <div><div class="t-title">Eat Back to Normal</div><div class="t-desc">Protein shake, easy carbs, and milk back in the rotation.</div></div>
+        </div>
+        <div class="target-item">
+          <div class="t-ico">H2O</div>
+          <div><div class="t-title">Hydrate</div><div class="t-desc">Especially around travel — don't wait until thirsty.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 COUNTDOWN -->
+    <section class="section" id="countdown-days">
+      <div class="section-head rv">
+        <div class="num-chip">02</div>
+        <div><span class="kicker">The Week</span><h2>The Countdown</h2></div>
+      </div>
+      <p class="lede rv">Day by day to kickoff.</p>
+
+      <div class="timeline rv">
+        <div class="day">
+          <div class="day-stub"><div class="d-name">Tue</div><div class="d-date">Aug 4</div></div>
+          <div class="day-body">
+            <div class="d-title">Last Team Practice</div>
+            <div class="d-detail">Wear shin guards + long socks to start breaking them in.</div>
+          </div>
+        </div>
+        <div class="day">
+          <div class="day-stub"><div class="d-name">Wed</div><div class="d-date">Aug 5</div></div>
+          <div class="day-body">
+            <div class="d-title">Last Home Touch Session</div>
+            <div class="d-detail">Light technical work, comfortable pace.</div>
+          </div>
+        </div>
+        <div class="day is-travel">
+          <div class="day-stub"><div class="d-name">Thu</div><div class="d-date">Aug 6</div></div>
+          <div class="day-body">
+            <div class="d-title">The Drive</div>
+            <div class="d-detail">4–5 hours on the road. Not a training day.</div>
+            <span class="d-tag">Travel Day</span>
+          </div>
+        </div>
+        <div class="day">
+          <div class="day-stub"><div class="d-name">Fri</div><div class="d-date">Aug 7</div></div>
+          <div class="day-body">
+            <div class="d-title">Shakeout + Pack</div>
+            <div class="d-detail">Light movement only, pack the bag, sleep early.</div>
+          </div>
+        </div>
+        <div class="day is-final">
+          <div class="day-stub"><div class="d-name">Sat</div><div class="d-date">Aug 8</div></div>
+          <div class="day-body">
+            <div class="d-title">THE FINAL</div>
+            <div class="d-detail">6–9 AM window. Long, unrushed warm-up.</div>
+            <span class="d-tag">Final</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 TODAY: LAST PRACTICE -->
+    <section class="section" id="practice">
+      <div class="section-head rv">
+        <div class="num-chip">03</div>
+        <div><span class="kicker">Today</span><h2>Last Practice</h2></div>
+      </div>
+      <p class="lede rv">Light, ~30–40 minutes, the day before travel. Nothing that costs energy for the drive.</p>
+
+      <ol class="drill-list rv">
+        <li><div class="dl-num">1</div><div><b>Contain Drill</b><span>No tackling — stay on feet, delay the attacker, force a decision.</span></div></li>
+        <li><div class="dl-num">2</div><div><b>First Touch + Decide-Early Wall Drill</b><span>Scan before the pass arrives, first touch sets up the next move.</span></div></li>
+        <li><div class="dl-num">3</div><div><b>Scan Drill</b><span>Head on a swivel — check shoulders before every touch.</span></div></li>
+        <li><div class="dl-num">4</div><div><b>Light Finishing</b><span>A few relaxed reps, no max-effort shots.</span></div></li>
+      </ol>
+
+      <div class="callout c-amber rv">
+        <div class="callout-head"><span class="callout-icon">!</span> Keep It Light</div>
+        <p>Stop early if feeling worse. Skip anything explosive — sprints, hard cuts, contact. The point of today is staying sharp, not adding fatigue.</p>
+      </div>
+    </section>
+
+    <!-- 04 BREAK IN THE KIT -->
+    <section class="section" id="kit">
+      <div class="section-head rv">
+        <div class="num-chip">04</div>
+        <div><span class="kicker">Equipment</span><h2>Break In the Kit</h2></div>
+      </div>
+      <div class="card rv">
+        <p>Shin guards and long socks are <b>mandatory</b> by tournament rules. Break them in during these last two sessions so nothing feels new or distracting during the final — same goes for cleats. The final is not the time to discover a hot spot or a shin guard that slides around.</p>
+      </div>
+    </section>
+
+    <!-- 05 THE THURSDAY DRIVE -->
+    <section class="section" id="drive">
+      <div class="section-head rv">
+        <div class="num-chip">05</div>
+        <div><span class="kicker">Travel</span><h2>The Thursday Drive</h2></div>
+      </div>
+      <div class="cue-grid rv">
+        <div class="cue"><div class="c-mark">1</div><div class="c-text">Hydrate steadily — small sips throughout, not one big bottle at the end.</div></div>
+        <div class="cue"><div class="c-mark">2</div><div class="c-text">Move and stretch at every stop, even a short one.</div></div>
+        <div class="cue"><div class="c-mark">3</div><div class="c-text">Eat real food, not gas station junk.</div></div>
+        <div class="cue"><div class="c-mark">4</div><div class="c-text">Light movement on arrival to shake off the ride.</div></div>
+      </div>
+    </section>
+
+    <!-- 06 THE BYE -->
+    <section class="section" id="bye">
+      <div class="section-head rv">
+        <div class="num-chip">06</div>
+        <div><span class="kicker">Bracket</span><h2>The Bye: Clearly Better</h2></div>
+      </div>
+      <p class="lede rv">Straight to the final, while both rivals have to survive an elimination game first.</p>
+
+      <div class="cmp-table-wrap rv">
+        <table class="cmp">
+          <thead>
+            <tr><th>Factor</th><th>Us (Bye)</th><th>Them (Elimination First)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-label">Legs</td><td class="us">Fresh</td><td class="them">Tired from an earlier match</td></tr>
+            <tr><td class="row-label">Injury Risk</td><td class="us">None taken on today</td><td class="them">One more game of exposure</td></tr>
+            <tr><td class="row-label">Sharpness</td><td class="us">Rested, slight rust risk</td><td class="them">Grooved, game-sharp</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout c-green rv">
+        <div class="callout-head"><span class="callout-icon">✓</span> Verdict</div>
+        <p>The bye wins. Rust is the only real cost, and a good long warm-up fixes that before kickoff.</p>
+      </div>
+    </section>
+
+    <!-- 07 CDM FOCUS -->
+    <section class="section" id="cdm">
+      <div class="section-head rv">
+        <div class="num-chip">07</div>
+        <div><span class="kicker">Position</span><h2>CDM Focus</h2></div>
+      </div>
+      <p class="lede rv">Central defensive midfielder — the four habits that matter most, plus the idea that ties them together.</p>
+
+      <div class="chalk-grid rv">
+        <div class="chalk">
+          <div class="chalk-top"><div class="num-chip">A</div><div><span class="chalk-tag">Already a Strength</span><h3>Scanning</h3></div></div>
+          <p>Keep checking shoulders before every touch — this is already working, just keep it up under final-game pressure.</p>
+        </div>
+        <div class="chalk">
+          <div class="chalk-top"><div class="num-chip">B</div><div><span class="chalk-tag">New Focus</span><h3>Open Hips / Body Orientation</h3></div></div>
+          <p>Receive side-on before the ball arrives so the first touch can go forward instead of needing an extra step to turn.</p>
+        </div>
+        <div class="chalk">
+          <div class="chalk-top"><div class="num-chip">C</div><div><span class="chalk-tag">Under Pressure</span><h3>First Touch</h3></div></div>
+          <p>Push the ball away from pressure and into space — never straight back into the defender closing you down.</p>
+        </div>
+        <div class="chalk">
+          <div class="chalk-top"><div class="num-chip">D</div><div><span class="chalk-tag">Off the Ball</span><h3>Cover Shadow</h3></div></div>
+          <p>Press the ball carrier while your body blocks the passing lane behind you — one action, two jobs.</p>
+        </div>
+        <div class="chalk chalk-highlight">
+          <div class="chalk-top"><div class="num-chip">★</div><div><span class="chalk-tag">Ties It All Together</span><h3>Decide Before the Ball Arrives</h3></div></div>
+          <p>Know your next move while the ball is still traveling to you — not after you receive it. This is what scanning, open hips, and first touch are all in service of.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 DEFENDING AS A CDM -->
+    <section class="section" id="defending">
+      <div class="section-head rv">
+        <div class="num-chip">08</div>
+        <div><span class="kicker">Without the Ball</span><h2>Defending as a CDM</h2></div>
+      </div>
+      <p class="lede rv">The goal isn't more tackles — it's stopping anyone from driving through the middle.</p>
+
+      <div class="cue-grid rv">
+        <div class="cue"><div class="c-mark">1</div><div class="c-text">Don't dive in — stay patient and let the attacker make the mistake.</div></div>
+        <div class="cue"><div class="c-mark">2</div><div class="c-text">Stay goal-side, back-pedal instead of turning your back on the play.</div></div>
+        <div class="cue"><div class="c-mark">3</div><div class="c-text">Show the attacker one direction — usually wide, away from the middle.</div></div>
+        <div class="cue"><div class="c-mark">4</div><div class="c-text">Delay until a teammate arrives to help — you don't have to win it alone.</div></div>
+      </div>
+
+      <div class="card rv">
+        <span class="card-label">Drill</span>
+        <h3>1v1 Contain, No Tackling</h3>
+        <p style="color:var(--ink-soft); font-size:0.9rem;">With a teammate: just delay for 5 seconds, staying on your feet the whole time. No tackling allowed — the only job is containing.</p>
+      </div>
+
+      <div class="card rv">
+        <span class="card-label">Getting the Ball</span>
+        <h3>Be the Easy Option</h3>
+        <p style="color:var(--ink-soft); font-size:0.9rem;">Teammates pass to players who look available. Show for the ball in an open body position — don't hide in a passing shadow and then wonder why it never comes.</p>
+      </div>
+    </section>
+
+    <!-- 09 RULE CHANGES -->
+    <section class="section" id="rules">
+      <div class="section-head rv">
+        <div class="num-chip">09</div>
+        <div><span class="kicker">Know Before You Play</span><h2>Rule Changes</h2></div>
+      </div>
+
+      <div class="rules-grid rv">
+        <div class="rule-item"><div class="r-ico">GL</div><div><b>Goal Size May Shrink</b><span>Possibly 24'×8' down to 16'×7', depending on delivery timing.</span></div></div>
+        <div class="rule-item"><div class="r-ico">SL</div><div><b>Throw-Ins, Not Kick-Ins</b><span>Sideline restarts are standard throw-ins.</span></div></div>
+        <div class="rule-item"><div class="r-ico">OS</div><div><b>No Offside</b><span>Offside rule is not in effect.</span></div></div>
+        <div class="rule-item"><div class="r-ico">⏱</div><div><b>2 × 20 Min Halves</b><span>Standard match length for the final.</span></div></div>
+        <div class="rule-item"><div class="r-ico">ET</div><div><b>Extra Time Format</b><span>Tied final → two 5-minute extra periods, then a penalty shootout.</span></div></div>
+        <div class="rule-item"><div class="r-ico">SD</div><div><b>Slide Tackling</b><span>Only allowed if you win the ball first.</span></div></div>
+        <div class="rule-item"><div class="r-ico">GK</div><div><b>GK 6-Second Rule</b><span>Goalkeeper may only hold the ball for 6 seconds.</span></div></div>
+      </div>
+    </section>
+
+    <!-- 10 GAME DAY -->
+    <section class="section" id="gameday">
+      <div class="section-head rv">
+        <div class="num-chip">10</div>
+        <div><span class="kicker">Saturday</span><h2>Game Day</h2></div>
+      </div>
+      <p class="lede rv">Saturday, August 8 — kickoff window 6–9 AM.</p>
+
+      <div class="clock-callout rv">
+        <span class="card-label">The Wake-Up Math</span>
+        <h3 style="color:#fff;">Working Backward From 6 AM</h3>
+        <div class="clock-math">
+          <div class="cm-row"><span>Wake up</span><span class="cm-time">4:45 AM</span></div>
+          <div class="cm-row"><span>Leave the house</span><span class="cm-time">5:15 AM</span></div>
+          <div class="cm-row"><span>Drive to venue</span><span class="cm-time">~20 min</span></div>
+          <div class="cm-row"><span>Kickoff</span><span class="cm-time">6:00 AM</span></div>
+        </div>
+      </div>
+
+      <ol class="gd-steps rv">
+        <li><b>Friday, 10:30 PM</b>Lights out. Bag already packed.</li>
+        <li><b>Saturday, 4:45 AM</b>Wake up, light breakfast, get dressed.</li>
+        <li><b>5:15 AM</b>Leave for the venue.</li>
+        <li><b>5:35 AM</b>Arrive, start warm-up — long and unrushed.</li>
+        <li><b>6:00 AM</b>Kickoff.</li>
+      </ol>
+
+      <div class="pack-grid rv">
+        <div class="pack-card">
+          <h4>Kit</h4>
+          <ul>
+            <li>Cleats (broken in)</li>
+            <li>Shin guards + long socks</li>
+            <li>Home + away jersey</li>
+            <li>Extra pair of socks</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h4>Fluids &amp; Fuel</h4>
+          <ul>
+            <li>Water bottle, filled</li>
+            <li>Electrolyte drink</li>
+            <li>Light pre-game snack</li>
+            <li>Protein shake for after</li>
+          </ul>
+        </div>
+        <div class="pack-card">
+          <h4>Misc</h4>
+          <ul>
+            <li>Towel</li>
+            <li>Sunscreen</li>
+            <li>Phone charger</li>
+            <li>Tissues (blocked nose)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- STARTING FIVE -->
+<section class="lineup">
+  <div class="wrap">
+    <div class="section-head rv">
+      <div class="num-chip">★</div>
+      <div><span class="kicker">Before Kickoff</span><h2>The Starting Five</h2></div>
+    </div>
+    <p class="lineup-sub rv">Five things to carry onto the pitch. Nothing else matters more this morning.</p>
+
+    <ol class="lineup-list rv">
+      <li><div class="jersey">1</div><div><b>Scan Before Every Touch</b><span>Know what's around you before the ball arrives.</span></div></li>
+      <li><div class="jersey">2</div><div><b>Open Hips Before Receiving</b><span>Side-on, ready to go forward.</span></div></li>
+      <li><div class="jersey">3</div><div><b>Decide Short-or-Long</b><span>Make the call early, commit to it.</span></div></li>
+      <li><div class="jersey">4</div><div><b>Contain + Cut the Passing Lane</b><span>Patience over diving in.</span></div></li>
+      <li><div class="jersey">5</div><div><b>Remember: You're the Fresh Team</b><span>The bye is an advantage — play like it.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-title">IPSF Tournament Final</div>
+    <div>Hosted at the IPSF Pitch</div>
+    <div class="f-tag">Faith · Unity · Sports · Culture</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var target = new Date('2026-08-08T06:00:00');
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function renderCountdown(){
+    var now = new Date();
+    var diff = target - now;
+    var dEl = document.getElementById('cd-d');
+    var hEl = document.getElementById('cd-h');
+    var mEl = document.getElementById('cd-m');
+    var sEl = document.getElementById('cd-s');
+
+    if (diff <= 0){
+      dEl.textContent = '0';
+      hEl.textContent = '0';
+      mEl.textContent = 'KICK';
+      sEl.textContent = 'OFF';
+      return;
+    }
+
+    var totalMinutes = Math.floor(diff / 60000);
+    var days = Math.floor(totalMinutes / (60*24));
+    var hours = Math.floor((totalMinutes % (60*24)) / 60);
+    var mins = totalMinutes % 60;
+
+    if (days > 1){
+      dEl.textContent = days;
+      hEl.textContent = hours;
+      mEl.textContent = mins;
+      sEl.textContent = 'AM';
+    } else {
+      var totalHours = Math.floor(diff / 3600000);
+      dEl.textContent = 0;
+      hEl.textContent = totalHours;
+      mEl.textContent = mins;
+      sEl.textContent = 'AM';
+    }
+  }
+
+  renderCountdown();
+  setInterval(renderCountdown, 60000);
+
+  var revealEls = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('rv-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('rv-visible'); });
+  }
+})();
+</script>
+
+</body>
+</html>
