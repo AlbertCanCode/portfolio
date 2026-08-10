@@ -717,7 +717,38 @@
     letter-spacing:0.08em;
     color:var(--gold);
     font-variant-numeric:tabular-nums;
-    margin-bottom:16px;
+    margin-bottom:18px;
+  }
+  .fw-stats{
+    display:flex;
+    justify-content:center;
+    align-items:stretch;
+    gap:22px;
+    margin-bottom:18px;
+  }
+  .fw-stat{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0 20px;
+  }
+  .fw-stat + .fw-stat{
+    border-left:1px dashed rgba(255,255,255,0.22);
+  }
+  .fw-stat .fs-val{
+    font-family:'Oswald',sans-serif;
+    font-size:1.15rem;
+    color:#fff;
+    letter-spacing:0.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .fw-stat .fs-label{
+    font-size:0.6rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#B9E3CD;
+    margin-top:3px;
   }
   .fw-note{
     font-size:0.9rem;
@@ -1132,7 +1163,11 @@
       <span class="fw-badge">Full Time · Saturday, August 8</span>
       <div class="fw-result">Champions — Won on Penalties</div>
       <div class="fw-score">2–2 after regulation · Won 3–1 on PKs</div>
-      <p class="fw-note">Played limited minutes while still coming off the fever — but the team stepped up and got it done. Every rough mile of that week, worth it.</p>
+      <div class="fw-stats">
+        <div class="fw-stat"><span class="fs-val">CAM</span><span class="fs-label">Subbed In As</span></div>
+        <div class="fw-stat"><span class="fs-val">0–0</span><span class="fs-label">While On the Pitch</span></div>
+      </div>
+      <p class="fw-note">Came on as a CAM instead of the usual CDM role — and while on the pitch, the team neither scored nor conceded. Solid defensive work rate held up even off the bench and out of position. Every rough mile of that week, worth it.</p>
     </div>
   </div>
 </section>
