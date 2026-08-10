@@ -234,8 +234,9 @@ function applyTheme(theme) {
   localStorage.setItem('theme', theme);
 }
 
-// Apply saved preference (or dark by default) on load
-applyTheme(localStorage.getItem('theme') || 'dark');
+// Apply saved preference, or fall back to the OS light/dark setting on first visit
+const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+applyTheme(localStorage.getItem('theme') || (systemPrefersLight ? 'light' : 'dark'));
 
 themeToggle.addEventListener('click', () => {
   const current = document.documentElement.getAttribute('data-theme');
