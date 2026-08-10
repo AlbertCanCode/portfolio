@@ -678,6 +678,54 @@
   .lineup-list b{display:block; font-size:0.94rem; color:#fff; margin-bottom:2px;}
   .lineup-list span{font-size:0.83rem; color:#AEBBE8;}
 
+  /* ---------- FULL TIME ---------- */
+  .final-whistle{padding:34px 0 8px;}
+  .fw-card{
+    background:linear-gradient(160deg, var(--pitch), #0C4E38);
+    color:#EAF7F1;
+    border-radius:var(--card-radius);
+    padding:26px 22px;
+    box-shadow:0 10px 26px rgba(17,105,74,0.30);
+    border:1px solid rgba(255,255,255,0.12);
+    text-align:center;
+  }
+  .fw-badge{
+    display:inline-flex;
+    align-items:center;
+    font-family:'Oswald',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    background:rgba(255,198,26,0.14);
+    border:1px solid rgba(255,198,26,0.32);
+    padding:5px 12px;
+    border-radius:999px;
+    margin-bottom:16px;
+  }
+  .fw-result{
+    font-family:'Oswald',sans-serif;
+    font-size:1.85rem;
+    line-height:1.15;
+    color:#fff;
+    letter-spacing:0.02em;
+    margin-bottom:10px;
+  }
+  .fw-score{
+    font-family:'Oswald',sans-serif;
+    font-size:0.95rem;
+    letter-spacing:0.08em;
+    color:var(--gold);
+    font-variant-numeric:tabular-nums;
+    margin-bottom:16px;
+  }
+  .fw-note{
+    font-size:0.9rem;
+    color:#D7EDE3;
+    max-width:46ch;
+    margin:0 auto;
+  }
+
   /* ---------- FOOTER ---------- */
   footer{
     background:var(--navy-darker);
@@ -1074,6 +1122,18 @@
       <li><div class="jersey">4</div><div><b>Contain + Cut the Passing Lane</b><span>Patience over diving in.</span></div></li>
       <li><div class="jersey">5</div><div><b>Remember: You're the Fresh Team</b><span>The bye is an advantage — play like it.</span></div></li>
     </ol>
+  </div>
+</section>
+
+<!-- FULL TIME -->
+<section class="final-whistle rv" id="fulltime">
+  <div class="wrap">
+    <div class="fw-card">
+      <span class="fw-badge">Full Time · Saturday, August 8</span>
+      <div class="fw-result">Champions — Won on Penalties</div>
+      <div class="fw-score">2–2 after regulation · Won 3–1 on PKs</div>
+      <p class="fw-note">Played limited minutes while still coming off the fever — but the team stepped up and got it done. Every rough mile of that week, worth it.</p>
+    </div>
   </div>
 </section>
 
