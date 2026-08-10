@@ -390,6 +390,7 @@ nav ul a:hover { color: var(--text); }
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
+  z-index: 2;
   background: var(--accent);
   color: #fff;
   font-size: 0.7rem;
