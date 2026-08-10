@@ -43,22 +43,28 @@ window.addEventListener('scroll', () => {
 
 // ─── TYPED HERO TEXT ──────────────────────────────────────────────────────────
 // Cycles through words in the hero headline with a typewriter effect
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const words = ['games.', 'web apps.', 'pixel art.', 'platformers.', 'simulators.'];
 let wi = 0, ci = 0, deleting = false;
 const el = document.getElementById('typedText');
-function type() {
-  const word = words[wi];
-  el.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
-  if (!deleting && ci === word.length + 1) { deleting = true; setTimeout(type, 1400); return; }
-  if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
-  setTimeout(type, deleting ? 60 : 100);
+if (prefersReducedMotion) {
+  el.textContent = words[0];
+} else {
+  function type() {
+    const word = words[wi];
+    el.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+    if (!deleting && ci === word.length + 1) { deleting = true; setTimeout(type, 1400); return; }
+    if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+    setTimeout(type, deleting ? 60 : 100);
+  }
+  type();
 }
-type();
 
 // ─── PROJECT FILTER ───────────────────────────────────────────────────────────
 // Auto-assigns data-filter to each card based on its tags, then handles clicks
 const filterBtns = document.querySelectorAll('.filter-btn');
 const cards = document.querySelectorAll('.card');
+document.querySelector('.nav-count').textContent = cards.length;
 
 // Assign filter categories from tag content
 cards.forEach(card => {
@@ -150,6 +156,11 @@ const counterObserver = new IntersectionObserver((entries) => {
     const target = parseFloat(el.dataset.target);
     const suffix = el.dataset.suffix || '';
     const decimals = target % 1 !== 0 ? 1 : 0; // 1 decimal for 1.5M, none for integers
+    if (prefersReducedMotion) {
+      el.textContent = target.toFixed(decimals) + suffix;
+      counterObserver.unobserve(el);
+      return;
+    }
     const duration = 1800;
     const start = performance.now();
     function update(now) {
