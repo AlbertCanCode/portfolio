@@ -254,16 +254,28 @@
     <div class="container">
       <h2 class="section-title">Projects</h2>
       <p class="section-sub">Games, tools, and experiments.</p>
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="scratch">Scratch</button>
-        <button class="filter-btn" data-filter="web">Web</button>
-        <button class="filter-btn" data-filter="wip">In Progress</button>
+      <div class="projects-controls">
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="scratch">Scratch</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+          <button class="filter-btn" data-filter="wip">In Progress</button>
+        </div>
+        <div class="projects-controls-right">
+          <input type="text" id="projectSearch" class="project-search" placeholder="Search projects…" aria-label="Search projects">
+          <select id="projectSort" class="project-sort" aria-label="Sort projects">
+            <option value="default">Sort: Default</option>
+            <option value="views">Sort: Most Viewed</option>
+            <option value="loves">Sort: Most Loved</option>
+            <option value="newest">Sort: Newest</option>
+          </select>
+        </div>
       </div>
+      <p id="noResults" class="no-results hidden">No projects match your search.</p>
       <div class="projects-grid">
 
         <!-- PAPER MINECRAFT — FEATURED -->
-        <article class="card card-featured">
+        <article class="card card-featured" data-shared="2023-09-10">
           <div class="card-badge">Featured</div>
           <div class="card-img"><img src="images/paper-minecraft.png" alt="Paper Minecraft thumbnail" decoding="async" /></div>
           <div class="card-body">
@@ -285,7 +297,7 @@
         </article>
 
         <!-- DAVID VS GOLIATH -->
-        <article class="card">
+        <article class="card" data-shared="2026-07-31">
           <div class="card-img"><img src="images/david-vs-goliath.png" alt="David vs Goliath thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>David vs Goliath</h3>
@@ -323,7 +335,7 @@
         </article>
 
         <!-- KINGDOM OF SOLANDRIA -->
-        <article class="card">
+        <article class="card" data-shared="2025-03-18">
           <div class="card-img"><img src="images/kingdom-of-solandria-1.png" alt="Kingdom of Solandria thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Kingdom of Solandria</h3>
@@ -343,7 +355,7 @@
         </article>
 
         <!-- COOKIE GUARDIAN -->
-        <article class="card">
+        <article class="card" data-shared="2025-12-04">
           <div class="card-badge card-badge-featured">Scratch Featured</div>
           <div class="card-img"><img src="images/cookie-guardian.png" alt="Cookie Guardian thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
@@ -364,7 +376,7 @@
         </article>
 
         <!-- ECHOED PATH -->
-        <article class="card">
+        <article class="card" data-shared="2026-01-02">
           <div class="card-badge card-badge-featured">PGMA S8 R1</div>
           <div class="card-img"><img src="images/echoed-path.png" alt="Echoed Path thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
@@ -385,7 +397,7 @@
         </article>
 
         <!-- POT O GOLD RUSH -->
-        <article class="card">
+        <article class="card" data-shared="2025-03-14">
           <div class="card-badge card-badge-featured">Scratch Featured</div>
           <div class="card-img"><img src="images/pot-o-gold-rush.png" alt="Pot o' Gold Rush thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
@@ -406,7 +418,7 @@
         </article>
 
         <!-- KINGDOM OF SOLANDRIA 2 -->
-        <article class="card">
+        <article class="card" data-shared="2025-12-25">
           <div class="card-img"><img src="images/kingdom-of-solandria-2.png" alt="Kingdom of Solandria 2 thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Kingdom of Solandria 2</h3>
@@ -426,7 +438,7 @@
         </article>
 
         <!-- SAVE THE SOULS -->
-        <article class="card">
+        <article class="card" data-shared="2026-03-16">
           <div class="card-img"><img src="images/save-the-souls.png" alt="Save the Souls thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Save the Souls</h3>
@@ -446,7 +458,7 @@
         </article>
 
         <!-- GEOMETRY DASH -->
-        <article class="card">
+        <article class="card" data-shared="2023-09-10">
           <div class="card-img"><img src="images/geometry-dash.png" alt="Geometry Dash Chroma Shift thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Geometry Dash: Chroma Shift</h3>
@@ -466,7 +478,7 @@
         </article>
 
         <!-- ROUND AND WOUND -->
-        <article class="card">
+        <article class="card" data-shared="2025-09-03">
           <div class="card-img"><img src="images/round-and-wound.png" alt="Round and Wound thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Round and Wound</h3>
@@ -486,7 +498,7 @@
         </article>
 
         <!-- GOBBLE CRAFT -->
-        <article class="card">
+        <article class="card" data-shared="2025-11-20">
           <div class="card-img"><img src="images/gobble-craft.png" alt="Gobble Craft thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>Gobble Craft</h3>
@@ -506,7 +518,7 @@
         </article>
 
         <!-- ALL SOCCER SIMULATOR -->
-        <article class="card">
+        <article class="card" data-shared="2025-01-01">
           <div class="card-img"><img src="images/soccer-simulator.png" alt="All Soccer Simulator thumbnail" loading="lazy" decoding="async" /></div>
           <div class="card-body">
             <h3>All Soccer Simulator</h3>
@@ -982,6 +994,12 @@
 
   <!-- BACK TO TOP -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- PROJECT IMAGE LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close image">&times;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  </div>
 
   <script src="script.js"></script>
 </body>

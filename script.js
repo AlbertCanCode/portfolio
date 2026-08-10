@@ -86,25 +86,121 @@ filterBtns.forEach(btn => {
   btn.innerHTML = btn.textContent + `<span class="filter-count">${count}</span>`;
 });
 
-// Handle filter button clicks with smooth fade transition
+// ─── PROJECT SEARCH ───────────────────────────────────────────────────────────
+// Combines with the active category filter: a card must match both to show
+const searchInput = document.getElementById('projectSearch');
+const noResults = document.getElementById('noResults');
+
+function cardMatchesSearch(card, term) {
+  if (!term) return true;
+  const title = card.querySelector('h3').textContent.toLowerCase();
+  const tags = [...card.querySelectorAll('.tag')].map(t => t.textContent.toLowerCase()).join(' ');
+  return (title + ' ' + tags).includes(term);
+}
+
+function applyVisibility() {
+  const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+  const term = searchInput.value.trim().toLowerCase();
+  let visibleCount = 0;
+  cards.forEach(card => {
+    clearTimeout(card._hideTimer);
+    const matchesFilter = activeFilter === 'all' || card.dataset.filter.includes(activeFilter);
+    const matchesSearch = cardMatchesSearch(card, term);
+    const match = matchesFilter && matchesSearch;
+    if (match) visibleCount++;
+    if (match) {
+      card.classList.remove('hidden', 'card-fading');
+    } else {
+      card.classList.add('card-fading');
+      // Wait for fade-out transition to finish before hiding from layout
+      card._hideTimer = setTimeout(() => card.classList.add('hidden'), 280);
+    }
+  });
+  noResults.classList.toggle('hidden', visibleCount !== 0);
+}
+
+// Handle filter button clicks
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const f = btn.dataset.filter;
-    cards.forEach(card => {
-      clearTimeout(card._hideTimer);
-      const match = f === 'all' || card.dataset.filter.includes(f);
-      if (match) {
-        card.classList.remove('hidden', 'card-fading');
-      } else {
-        card.classList.add('card-fading');
-        // Wait for fade-out transition to finish before hiding from layout
-        card._hideTimer = setTimeout(() => card.classList.add('hidden'), 280);
-      }
-    });
+    applyVisibility();
   });
 });
+
+searchInput.addEventListener('input', applyVisibility);
+
+// ─── PROJECT SORT ─────────────────────────────────────────────────────────────
+// Re-orders cards in the DOM by live view/love counts or by real Scratch publish date
+const projectsGrid = document.querySelector('.projects-grid');
+const cardsArr = [...cards];
+const originalCardOrder = [...cardsArr];
+
+function parseStatValue(el) {
+  if (!el) return -Infinity;
+  const text = el.textContent.trim().toUpperCase();
+  const num = parseFloat(text) || 0;
+  if (text.includes('M')) return num * 1_000_000;
+  if (text.includes('K')) return num * 1_000;
+  return num;
+}
+
+document.getElementById('projectSort').addEventListener('change', (e) => {
+  const value = e.target.value;
+  let sorted;
+  if (value === 'views' || value === 'loves') {
+    sorted = [...cardsArr].sort((a, b) =>
+      parseStatValue(b.querySelector(`[data-auto$="-${value}"]`)) -
+      parseStatValue(a.querySelector(`[data-auto$="-${value}"]`))
+    );
+  } else if (value === 'newest') {
+    sorted = [...cardsArr].sort((a, b) =>
+      (b.dataset.shared || '0000-00-00').localeCompare(a.dataset.shared || '0000-00-00')
+    );
+  } else {
+    sorted = originalCardOrder;
+  }
+  sorted.forEach(card => projectsGrid.appendChild(card));
+});
+
+// ─── "NEW" PROJECT BADGE ──────────────────────────────────────────────────────
+// Auto-expiring badge based on each card's real Scratch publish date (data-shared)
+const NEW_BADGE_DAYS = 30;
+cardsArr.forEach(card => {
+  const shared = card.dataset.shared;
+  if (!shared || card.querySelector('.card-badge')) return;
+  const daysSince = (Date.now() - new Date(shared + 'T00:00:00').getTime()) / 86400000;
+  if (daysSince >= 0 && daysSince <= NEW_BADGE_DAYS) {
+    const badge = document.createElement('div');
+    badge.className = 'card-badge card-badge-new';
+    badge.textContent = 'New';
+    card.prepend(badge);
+  }
+});
+
+// ─── PROJECT IMAGE LIGHTBOX ───────────────────────────────────────────────────
+// Click a project thumbnail to view it enlarged
+const lightboxOverlay = document.getElementById('lightboxOverlay');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt;
+  lightboxOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightboxOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.card-img img').forEach(img => {
+  img.closest('.card-img').setAttribute('data-lightbox', 'true');
+  img.addEventListener('click', () => openLightbox(img.src, img.alt));
+});
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxOverlay.addEventListener('click', (e) => { if (e.target === lightboxOverlay) closeLightbox(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
 // ─── HAMBURGER MENU ───────────────────────────────────────────────────────────
 // Toggles mobile nav open/closed; auto-closes when a link is tapped

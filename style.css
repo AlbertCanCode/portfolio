@@ -1168,6 +1168,105 @@ footer {
   transform: translateX(-50%) translateY(0);
 }
 
+/* PROJECT SEARCH + SORT */
+.projects-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.projects-controls .filter-bar { margin-bottom: 0; }
+.projects-controls-right {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.project-search,
+.project-sort {
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: var(--font);
+}
+.project-search {
+  min-width: 180px;
+}
+.project-search:focus,
+.project-sort:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.project-search::placeholder { color: var(--text-muted); }
+
+.no-results {
+  color: var(--text-muted);
+  padding: 2rem 0;
+  text-align: center;
+}
+.hidden { display: none !important; }
+
+/* NEW PROJECT BADGE */
+.card-badge-new {
+  background: var(--green);
+  color: #06280f;
+  border: 1px solid #16a34a;
+}
+
+/* PROJECT IMAGE LIGHTBOX */
+.card-img[data-lightbox] { cursor: zoom-in; }
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.lightbox-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+@media print {
+  nav, .filter-bar, .projects-controls, .theme-toggle, .back-to-top,
+  .scroll-progress, .find-me, footer, .card-links,
+  .lightbox-overlay, .no-results { display: none !important; }
+  body, .section, .card { background: #fff !important; color: #111 !important; }
+  .card { border: 1px solid #ccc !important; break-inside: avoid; }
+  .section { padding: 1rem 0 !important; }
+  a { color: #111 !important; text-decoration: underline; }
+}
+
 /* PREFERS REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
