@@ -154,7 +154,9 @@
   }
   .scoreboard-meta{
     display:flex;
+    flex-wrap:wrap;
     justify-content:space-between;
+    gap:4px 16px;
     margin-top:14px;
     padding-top:12px;
     border-top:1px dashed rgba(255,255,255,0.18);
@@ -703,6 +705,14 @@
     border-radius:999px;
     margin-bottom:16px;
   }
+  .fw-vs{
+    font-family:'Oswald',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#B9E3CD;
+    margin-bottom:8px;
+  }
   .fw-result{
     font-family:'Oswald',sans-serif;
     font-size:1.85rem;
@@ -805,7 +815,7 @@
         <div class="cd-block"><div class="cd-num" id="cd-s">–</div><div class="cd-unit">Kickoff</div></div>
       </div>
       <div class="scoreboard-meta">
-        <span>Opponent: <b>TBD (Final)</b></span>
+        <span>Opponent: <b>Pearland (City Rivals)</b></span>
         <span>Venue: <b>IPSF Pitch</b></span>
       </div>
     </div>
@@ -1161,13 +1171,14 @@
   <div class="wrap">
     <div class="fw-card">
       <span class="fw-badge">Full Time · Saturday, August 8</span>
+      <div class="fw-vs">vs. Pearland — City Rivals</div>
       <div class="fw-result">Champions — Won on Penalties</div>
       <div class="fw-score">2–2 after regulation · Won 3–1 on PKs</div>
       <div class="fw-stats">
         <div class="fw-stat"><span class="fs-val">CAM</span><span class="fs-label">Subbed In As</span></div>
-        <div class="fw-stat"><span class="fs-val">0–0</span><span class="fs-label">While On the Pitch</span></div>
+        <div class="fw-stat"><span class="fs-val">1–0</span><span class="fs-label">Down When Subbed In</span></div>
       </div>
-      <p class="fw-note">Came on as a CAM instead of the usual CDM role — and while on the pitch, the team neither scored nor conceded. Solid defensive work rate held up even off the bench and out of position. Every rough mile of that week, worth it.</p>
+      <p class="fw-note">Came on as a CAM instead of the usual CDM role while the team trailed 1–0 — neither side scored or conceded during that stretch on the pitch. Didn't feature in extra time, but the group ground it out to 2–2 and won it on penalties. Every rough mile of that week, worth it.</p>
     </div>
   </div>
 </section>
