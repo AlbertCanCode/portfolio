@@ -730,10 +730,9 @@
     margin-bottom:18px;
   }
   .fw-stats{
-    display:flex;
-    justify-content:center;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
     align-items:stretch;
-    gap:22px;
     margin-bottom:18px;
   }
   .fw-stat{
@@ -741,14 +740,14 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:0 20px;
+    padding:0 6px;
   }
   .fw-stat + .fw-stat{
     border-left:1px dashed rgba(255,255,255,0.22);
   }
   .fw-stat .fs-val{
     font-family:'Oswald',sans-serif;
-    font-size:1.15rem;
+    font-size:1.05rem;
     color:#fff;
     letter-spacing:0.02em;
     font-variant-numeric:tabular-nums;
@@ -1177,8 +1176,9 @@
       <div class="fw-stats">
         <div class="fw-stat"><span class="fs-val">CAM</span><span class="fs-label">Subbed In As</span></div>
         <div class="fw-stat"><span class="fs-val">1–0</span><span class="fs-label">Down When Subbed In</span></div>
+        <div class="fw-stat"><span class="fs-val">−3h</span><span class="fs-label">Sleep vs. Pearland</span></div>
       </div>
-      <p class="fw-note">Came on as a CAM instead of the usual CDM role while the team trailed 1–0 — neither side scored or conceded during that stretch on the pitch. Didn't feature in extra time, but the group ground it out to 2–2 and won it on penalties. Every rough mile of that week, worth it.</p>
+      <p class="fw-note">Came on as a CAM instead of the usual CDM role while the team trailed 1–0 — neither side scored or conceded during that stretch on the pitch. Didn't feature in extra time. Add in roughly three fewer hours of sleep than Pearland going in, from staying out late Friday watching younger brothers play — and the group still ground it out to 2–2 and won it on penalties. Every rough mile of that week, worth it.</p>
     </div>
   </div>
 </section>
