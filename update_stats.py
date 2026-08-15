@@ -17,7 +17,7 @@ import scratchattach as sa
 
 # Public Scratch accounts whose project views count toward the total
 SCRATCH_MAIN      = "ChessProking-tm"
-SCRATCH_ACCOUNTS  = ["ChessProking-tm", "ChessProking-alt", "netheradventurer"]
+SCRATCH_ACCOUNTS  = ["ChessProking-tm", "ChessProking-alt", "netheradventurer", "ARMYOFFOLLOWERS6"]
 ITCH_USERNAME     = "albertcancode"
 HTML_FILE         = "index.html"
 
