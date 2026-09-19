@@ -4,11 +4,14 @@
   --bg: #0a0a0f;
   --bg2: #111118;
   --surface: #1a1a24;
+  --surface-glass: rgba(26, 26, 36, 0.55);
   --border: #2a2a38;
   --text: #e8e8f0;
   --text-muted: #8888a8;
   --accent: #6366f1;
   --accent-hover: #818cf8;
+  --accent2: #ec4899;
+  --accent2-hover: #f472b6;
   --green: #22c55e;
   --yellow: #eab308;
   --radius: 12px;
@@ -23,11 +26,14 @@
   --bg: #f4f5fb;
   --bg2: #eaecf7;
   --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.55);
   --border: #d8daf0;
   --text: #0f0f1e;
   --text-muted: #5c5c80;
   --accent: #6366f1;
   --accent-hover: #4f46e5;
+  --accent2: #db2777;
+  --accent2-hover: #be185d;
   --nav-bg: rgba(244, 245, 251, 0.88);
   --section-alt-bg: #eaecf7;
 }
@@ -60,7 +66,7 @@ html, html * { transition: background-color 0.25s ease, border-color 0.25s ease,
   left: 0;
   height: 3px;
   width: 0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
   z-index: 999;
   transition: width 0.1s linear;
 }
@@ -203,6 +209,59 @@ nav ul a:hover { color: var(--text); }
   overflow: hidden;
 }
 
+/* AURORA — animated glow blobs, clipped inside the hero */
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  will-change: transform;
+}
+.aurora-blob-1 {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  left: 8%;
+  background: var(--accent);
+  animation: aurora-drift-1 18s ease-in-out infinite;
+}
+.aurora-blob-2 {
+  width: 380px;
+  height: 380px;
+  top: -60px;
+  right: 6%;
+  background: var(--accent2);
+  animation: aurora-drift-2 22s ease-in-out infinite;
+}
+.aurora-blob-3 {
+  width: 320px;
+  height: 320px;
+  bottom: -160px;
+  left: 38%;
+  background: var(--accent-hover);
+  animation: aurora-drift-3 26s ease-in-out infinite;
+}
+@keyframes aurora-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.1); }
+}
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 40px) scale(1.05); }
+}
+@keyframes aurora-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.08); }
+}
+[data-theme="light"] .aurora-blob { opacity: 0.22; }
+
 /* Subtle noise grain overlay on hero */
 .hero::before {
   content: '';
@@ -238,6 +297,15 @@ nav ul a:hover { color: var(--text); }
 }
 
 .accent { color: var(--accent); }
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .accent {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
 
 .typed::after {
   content: '|';
@@ -304,7 +372,18 @@ nav ul a:hover { color: var(--text); }
 
 /* SECTIONS */
 .section { padding: 6rem 2rem; }
-.section-dark { background: var(--bg2); }
+.section-dark {
+  background:
+    radial-gradient(ellipse 60% 40% at 85% 0%, rgba(236,72,153,0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 15% 100%, rgba(99,102,241,0.08) 0%, transparent 65%),
+    var(--bg2);
+}
+.section-alt {
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(99,102,241,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 85% 100%, rgba(236,72,153,0.07) 0%, transparent 65%),
+    var(--section-alt-bg);
+}
 
 .container { max-width: 1100px; margin: 0 auto; }
 
@@ -313,6 +392,16 @@ nav ul a:hover { color: var(--text); }
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
+  color: var(--text);
+}
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .section-title {
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .section-sub {
@@ -371,7 +460,9 @@ nav ul a:hover { color: var(--text); }
 }
 
 .card {
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -514,7 +605,9 @@ nav ul a:hover { color: var(--text); }
   justify-content: space-between;
   gap: 1rem;
   padding: 0.7rem 1rem;
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 10px;
   transition: border-color 0.2s, transform 0.2s;
@@ -615,7 +708,9 @@ nav ul a:hover { color: var(--text); }
 .about-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
 
 .about-card {
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 2rem;
@@ -655,7 +750,7 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
 }
 @keyframes glowPulse {
   0%, 100% { box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(99,102,241,0.35), 0 0 48px rgba(99,102,241,0.15); }
-  50% { box-shadow: 0 0 0 1px var(--accent-hover), 0 0 32px rgba(129,140,248,0.5), 0 0 64px rgba(129,140,248,0.2); }
+  50% { box-shadow: 0 0 0 1px var(--accent2), 0 0 32px rgba(236,72,153,0.4), 0 0 64px rgba(236,72,153,0.18); }
 }
 
 /* TOOLTIPS */
@@ -688,8 +783,6 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
   z-index: 10;
 }
 
-/* SECTION VARIANTS */
-.section-alt { background: var(--section-alt-bg); }
 
 /* SCRATCH RECORD */
 .record-nums {
@@ -700,7 +793,9 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
 }
 
 .record-stat {
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.85rem 1.25rem;
@@ -743,7 +838,9 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.9rem 1.1rem;
@@ -798,7 +895,9 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1.5px solid var(--border);
   border-radius: 14px;
   padding: 1.75rem 2.5rem;
@@ -853,7 +952,7 @@ nav ul a.active {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(99,102,241,0.18) 0%, rgba(0,0,0,0.32) 100%);
+  background: linear-gradient(160deg, rgba(236,72,153,0.18) 0%, rgba(99,102,241,0.14) 45%, rgba(0,0,0,0.32) 100%);
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
@@ -947,7 +1046,9 @@ footer {
 }
 
 .testimonial-card {
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.75rem;
@@ -992,7 +1093,7 @@ footer {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1031,7 +1132,7 @@ footer {
   top: 6px;
   bottom: 6px;
   width: 2px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
 }
 
 .tl-item {
@@ -1079,7 +1180,9 @@ footer {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  background: var(--surface);
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.6rem 0.9rem;
