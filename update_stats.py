@@ -34,7 +34,7 @@ SCRATCH_PROJECTS  = {
     1212065140: "Round and Wound",
     1245605623: "Gobble Craft",
     1115457053: "All Soccer Simulator",
-    1364940207: "David vs Goliath",
+    1364940207: "A Shepherd's Faith",
     1317452321: "Don't Miss a Beat",
 }
 
