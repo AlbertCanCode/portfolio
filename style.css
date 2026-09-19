@@ -19,6 +19,9 @@
   --mono: 'JetBrains Mono', monospace;
   --nav-bg: rgba(10, 10, 15, 0.85);
   --section-alt-bg: #0d0d14;
+  --bg-translucent: rgba(10, 10, 15, 0.6);
+  --bg2-translucent: rgba(17, 17, 24, 0.6);
+  --section-alt-translucent: rgba(13, 13, 20, 0.6);
 }
 
 /* ─── LIGHT MODE ─────────────────────────────────────────────────────────── */
@@ -36,6 +39,9 @@
   --accent2-hover: #be185d;
   --nav-bg: rgba(244, 245, 251, 0.88);
   --section-alt-bg: #eaecf7;
+  --bg-translucent: rgba(244, 245, 251, 0.6);
+  --bg2-translucent: rgba(234, 236, 247, 0.6);
+  --section-alt-translucent: rgba(234, 236, 247, 0.6);
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 96px; }
@@ -122,7 +128,7 @@ nav ul a:hover { color: var(--text); }
   font-weight: 600;
 }
 
-/* THEME TOGGLE — styled as a nav pill to match other links */
+/* THEME TOGGLE - styled as a nav pill to match other links */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -202,18 +208,16 @@ nav ul a:hover { color: var(--text); }
   display: flex;
   align-items: center;
   padding: 6rem 2rem 4rem;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,0.15) 0%, transparent 70%),
-    var(--bg);
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
 
-/* AURORA — animated glow blobs, clipped inside the hero */
-.aurora {
-  position: absolute;
+/* PAGE AURORA - fixed behind the whole page so the glow is continuous while scrolling */
+.page-aurora {
+  position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   overflow: hidden;
   pointer-events: none;
 }
@@ -371,19 +375,9 @@ nav ul a:hover { color: var(--text); }
 .stat-label { font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono); }
 
 /* SECTIONS */
-.section { padding: 6rem 2rem; }
-.section-dark {
-  background:
-    radial-gradient(ellipse 60% 40% at 85% 0%, rgba(236,72,153,0.08) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 40% at 15% 100%, rgba(99,102,241,0.08) 0%, transparent 65%),
-    var(--bg2);
-}
-.section-alt {
-  background:
-    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(99,102,241,0.07) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 40% at 85% 100%, rgba(236,72,153,0.07) 0%, transparent 65%),
-    var(--section-alt-bg);
-}
+.section { padding: 6rem 2rem; background: var(--bg-translucent); }
+.section-dark { background: var(--bg2-translucent); }
+.section-alt { background: var(--section-alt-translucent); }
 
 .container { max-width: 1100px; margin: 0 auto; }
 
@@ -742,7 +736,7 @@ body.loaded .hero-inner,
 body.loaded nav,
 body.loaded .section { opacity: 1; transform: translateY(0); }
 
-/* GLOW BORDER — FEATURED CARD */
+/* GLOW BORDER - FEATURED CARD */
 .card-featured {
   border-color: var(--accent) !important;
   box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(99,102,241,0.35), 0 0 48px rgba(99,102,241,0.15);
@@ -872,7 +866,7 @@ body.loaded .section { opacity: 1; transform: translateY(0); }
 /* FIND ME */
 .find-me {
   padding: 5rem 2rem;
-  background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(99,102,241,0.08) 0%, transparent 70%), var(--bg2);
+  background: var(--bg2-translucent);
   text-align: center;
 }
 
@@ -1224,7 +1218,7 @@ footer {
 
 [data-theme="light"] body { background: var(--bg); color: var(--text); }
 
-/* Hero noise texture — slightly more visible on light bg */
+/* Hero noise texture - slightly more visible on light bg */
 [data-theme="light"] .hero::before { opacity: 0.018; }
 
 /* Cards */
@@ -1256,7 +1250,7 @@ footer {
   border-color: var(--border);
 }
 
-/* Scroll progress bar stays accent colour — fine in both modes */
+/* Scroll progress bar stays accent colour - fine in both modes */
 
 /* Filter count badge */
 [data-theme="light"] .filter-btn:not(.active) .filter-count {
@@ -1383,7 +1377,7 @@ footer {
 @media print {
   nav, .filter-bar, .projects-controls, .theme-toggle, .back-to-top,
   .scroll-progress, .find-me, footer, .card-links,
-  .lightbox-overlay, .no-results { display: none !important; }
+  .lightbox-overlay, .no-results, .page-aurora { display: none !important; }
   body, .section, .card { background: #fff !important; color: #111 !important; }
   .card { border: 1px solid #ccc !important; break-inside: avoid; }
   .section { padding: 1rem 0 !important; }

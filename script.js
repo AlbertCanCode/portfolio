@@ -274,7 +274,7 @@ const counterObserver = new IntersectionObserver((entries) => {
 counters.forEach(c => counterObserver.observe(c));
 
 // ─── KONAMI CODE EASTER EGG ──────────────────────────────────────────────────
-// ↑ ↑ ↓ ↓ ← → ← → B A — shows a "cheat code activated" toast
+// ↑ ↑ ↓ ↓ ← → ← → B A: shows a "cheat code activated" toast
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIndex = 0;
 

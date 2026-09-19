@@ -83,7 +83,7 @@ def get_itch_views(api_key):
         games = resp.json().get("games", [])
         return sum(g.get("views_count", 0) for g in games)
     except Exception as e:
-        print(f"  Warning: could not fetch itch.io stats — {e}")
+        print(f"  Warning: could not fetch itch.io stats: {e}")
         return None
 
 
@@ -186,7 +186,7 @@ def update_html(filepath, record_updates, hero_updates, inline_updates, combined
         html = update_meta_descriptions(html, combined_value)
 
     if html == original:
-        print("All stats unchanged — no update needed.")
+        print("All stats unchanged, no update needed.")
         return False
 
     with open(filepath, "w", encoding="utf-8") as f:
@@ -228,7 +228,7 @@ if __name__ == "__main__":
     else:
         print("Skipping itch.io stats (ITCH_API_KEY not set).")
 
-    # Combined views (Scratch + itch.io) — only update when itch data is available
+    # Combined views (Scratch + itch.io), only update when itch data is available
     if itch_views is not None:
         combined = scratch_views + itch_views
         fmt_combined = format_count(combined)
