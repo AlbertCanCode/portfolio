@@ -208,7 +208,7 @@ nav ul a:hover { color: var(--text); }
   display: flex;
   align-items: center;
   padding: 6rem 2rem 4rem;
-  background: transparent;
+  background: var(--bg-translucent);
   position: relative;
   overflow: hidden;
 }
