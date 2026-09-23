@@ -36,6 +36,7 @@ SCRATCH_PROJECTS  = {
     1115457053: "All Soccer Simulator",
     1364940207: "A Shepherd's Faith",
     1317452321: "Don't Miss a Beat",
+    1219474888: "Power Mower",
 }
 
 
