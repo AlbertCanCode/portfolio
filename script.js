@@ -70,9 +70,11 @@ document.querySelector('.nav-count').textContent = cards.length;
 cards.forEach(card => {
   const tags = [...card.querySelectorAll('.tag')].map(t => t.textContent.toLowerCase());
   const isWip = card.querySelector('.wip-badge');
+  const hasItch = [...card.querySelectorAll('.card-links a')].some(a => a.href.includes('itch.io'));
   let filters = [];
   if (tags.some(t => ['html', 'css', 'javascript', 'python'].includes(t))) filters.push('web');
   else filters.push('scratch');
+  if (hasItch) filters.push('itch');
   if (isWip) filters.push('wip');
   card.dataset.filter = filters.join(' ');
 });
