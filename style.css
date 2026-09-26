@@ -711,18 +711,33 @@ nav ul a:hover { color: var(--text); }
   border-left: 3px solid var(--accent);
 }
 
-.about-card-quote {
-  font-style: italic;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text);
-  margin-bottom: 1rem;
+.about-card-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  margin-bottom: 1.25rem;
 }
 
-.about-card-source {
-  font-size: 0.8rem;
-  font-family: var(--mono);
-  color: var(--text-muted);
+.about-card-facts {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-card-facts li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.98rem;
+  color: var(--text);
+}
+
+.about-card-fact-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 /* PAGE LOAD ANIMATION */
